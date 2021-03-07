@@ -373,7 +373,7 @@ class Trainer(AbstractTrainer):
         self._save_generated_text(generate_corpus, task_type=self.task_type)
         reference_corpus = eval_data.get_reference()
         result = self.evaluator.evaluate(generate_corpus, reference_corpus)
-        result['nll_test'] = self._evaluate_nll_test(eval_data)
+        #result['nll_test'] = self._evaluate_nll_test(eval_data)
 
         return result
 

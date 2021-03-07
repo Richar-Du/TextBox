@@ -19,7 +19,7 @@ import torch.nn.functional as F
 import math
 
 
-def topk_sampling(logits, temperature=1.0, top_k=0, top_p=0.9):
+def topk_sampling(logits, temperature=1.0, top_k=0, top_p=0.9, token_num=1):
     r"""
     Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
 
@@ -60,7 +60,7 @@ def topk_sampling(logits, temperature=1.0, top_k=0, top_p=0.9):
 
     probabilities = F.softmax(logits, dim=-1)
     probabilities = probabilities.squeeze(1)
-    token_idx = torch.multinomial(probabilities, 1)
+    token_idx = torch.multinomial(probabilities, token_num)
 
     return token_idx
 

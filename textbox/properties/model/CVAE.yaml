@@ -1,14 +1,13 @@
 # model settings
-embedding_size: 128
-hidden_size: 256
-latent_size: 64
-MLP_neuron_size: 100
+embedding_size: 256
+hidden_size: 512
+latent_size: 256
+MLP_neuron_size: 512
 rnn_type: "gru"
 num_highway_layers: 2
-num_enc_layers: 2
-num_dec_layers: 1
+num_enc_layers: 3
+num_dec_layers: 3
 bidirectional: True
-gamma: 1
 
 # training settings
 learner: adam
