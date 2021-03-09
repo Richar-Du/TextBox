@@ -69,8 +69,8 @@ class CVAE(UnconditionalGenerator):
             self.MLP_logvar_linear1 = nn.Linear(2 * self.num_directions * self.hidden_size, self.MLP_neuron_size)
             self.MLP_logvar_linear2 = nn.Linear(self.MLP_neuron_size, self.latent_size)
             # posterior network
-            self.hidden_to_mean = nn.Linear(self.num_directions * self.hidden_size, self.latent_size)
-            self.hidden_to_logvar = nn.Linear(self.num_directions * self.hidden_size, self.latent_size)
+            self.hidden_to_mean = nn.Linear(3*self.num_directions * self.hidden_size, self.latent_size)
+            self.hidden_to_logvar = nn.Linear(3*self.num_directions * self.hidden_size, self.latent_size)
             self.latent_to_hidden = nn.Linear(
                 2 * self.num_directions * self.hidden_size + self.latent_size, 2 * self.hidden_size
             )  # first args size=title+pre_line+z
@@ -79,13 +79,14 @@ class CVAE(UnconditionalGenerator):
             self.MLP_mean_linear2 = nn.Linear(self.MLP_neuron_size, self.latent_size)
             self.MLP_logvar_linear1 = nn.Linear(2 * self.num_directions * self.hidden_size, self.MLP_neuron_size)
             self.MLP_logvar_linear2 = nn.Linear(self.MLP_neuron_size, self.latent_size)
-            self.hidden_to_mean = nn.Linear(self.num_directions * self.hidden_size, self.latent_size)
-            self.hidden_to_logvar = nn.Linear(self.num_directions * self.hidden_size, self.latent_size)
+            self.hidden_to_mean = nn.Linear(3*self.num_directions * self.hidden_size, self.latent_size)
+            self.hidden_to_logvar = nn.Linear(3*self.num_directions * self.hidden_size, self.latent_size)
             self.latent_to_hidden = nn.Linear(
                 2 * self.num_directions * self.hidden_size + self.latent_size, self.hidden_size
             )
         else:
             raise ValueError("No such rnn type {} for CVAE.".format(self.rnn_type))
+
 
         # parameters initialization
         self.apply(self.xavier_uniform_initialization)
@@ -216,8 +217,7 @@ class CVAE(UnconditionalGenerator):
         # sentence_length (Torch.tensor): shape: [batch_size,max_target_num]
         sentence_length = corpus['target_idx_length_data']
         # sentence_length (Torch.tensor): shape: [batch_size]
-        sentence_length = torch.Tensor([sentence_length[i][0].item()
-                                        for i in range(len(sentence_length))])  # the real length
+        sentence_length = torch.Tensor([sentence_length[i][0].item() for i in range(len(sentence_length))])         # the real length
         batch_size = sentence_text.size(0)
 
         # title_emb (Torch.tensor): shape:[batch_size,source_idx_length_data,embedding_size]
@@ -230,23 +230,20 @@ class CVAE(UnconditionalGenerator):
         title_o, title_hidden = self.encoder(title_emb, title_length)
 
         # pad_text (Torch.tensor): shape:[batch_size,sentence_length]
-        pad_text = torch.full((batch_size, self.max_target_length + 2), self.padding_token_idx).to(
-            self.device
-        )  # prepare 'pad' to generate the first line, because there is no "previous" line for the first line"
+        pad_text = torch.full((batch_size, self.max_target_length + 2),
+                              self.padding_token_idx).to(self.device)            # prepare 'pad' to generate the first line, because there is no "previous" line for the first line"
         # pad_emb (Torch.tensor): shape:[batch_size,max_target_length+2，embedding_size]
         pad_emb = self.token_embedder(pad_text)
 
         total_loss = torch.zeros(1).to(self.device)
         for i in range(0, self.max_target_num):
-            if i == 0:  # there is no previous line for the first line
+            if i == 0:              # there is no previous line for the first line
                 # pre_o (Torch.tensor): shape:[batch_size,max_target_length+2,hidden_size*2]
                 # pre_hidden (Torch.tensor): shape:[num_enc_layers*num_directions,batch_size,hidden_size]
                 pre_o, pre_hidden = self.encoder(pad_emb, sentence_length)
             else:
                 pre_o, pre_hidden = self.encoder(sentence_emb[:, i - 1, :, :], sentence_length)
-            cur_o, cur_hidden = self.encoder(
-                sentence_emb[:, i, :, :], sentence_length
-            )  # extract the current line from the whole embedding
+            cur_o, cur_hidden = self.encoder(sentence_emb[:, i, :, :], sentence_length)                 # extract the current line from the whole embedding
 
             if self.rnn_type == "lstm":
                 title_h, title_c = title_hidden
@@ -279,8 +276,12 @@ class CVAE(UnconditionalGenerator):
                 cur_h = cur_h[-1]
 
             # concatenate the title and the previous line
-            # condition (Torch.tensor): shape:[batch_size,num_directions*hidden_size+num_directions*hidden_size]
+            # condition (Torch.tensor): shape:[batch_size,2*num_directions*hidden_size]
             condition = torch.cat((title_h, pre_h), 1)
+            # concatenate the condition and the current line
+            # combined (Torch.tensor): shape:[batch_size,3*num_directions*hidden_size]
+            combined=torch.cat((condition,cur_h),1)
+
 
             # prior network
             # prior_mean (Torch.tensor): shape:[batch_size,MLP_neuron_size]
@@ -294,9 +295,9 @@ class CVAE(UnconditionalGenerator):
 
             # posterior network
             # posterior_mean (Torch.tensor): shape:[batch_size,latent_size]
-            posterior_mean = self.hidden_to_mean(cur_h)
+            posterior_mean = self.hidden_to_mean(combined)
             # posterior_logvar (Torch.tensor): shape:[batch_size,latent_size]
-            posterior_logvar = self.hidden_to_logvar(cur_h)
+            posterior_logvar = self.hidden_to_logvar(combined)
 
             # sample from the posterior
             posterior_z = torch.randn([batch_size, self.latent_size]).to(self.device)
@@ -305,9 +306,8 @@ class CVAE(UnconditionalGenerator):
 
             # latent space to decoder
             # hidden (Torch.tensor): shape:[batch_size,hidden_size]
-            hidden = self.latent_to_hidden(
-                torch.cat((condition, posterior_z), 1)
-            )  # concatenate the condition and the posterior_z, then make preparation for the decoder
+            hidden = self.latent_to_hidden(torch.cat((condition, posterior_z), 1))          # concatenate the condition and the posterior_z, then make preparation for the decoder
+
 
             if self.rnn_type == "lstm":
                 decoder_hidden = torch.chunk(hidden, 2, dim=-1)
@@ -319,8 +319,8 @@ class CVAE(UnconditionalGenerator):
                 decoder_hidden = hidden.unsqueeze(0).expand(self.num_dec_layers, -1, -1).contiguous()
 
             # input_emb (Torch.tensor): shape:[batch_size,sentence_length-1,embedding_size]
-            input_emb = sentence_emb[:, i, :-1, :]  # extract the i^th sentence
-            input_emb = self.dropout(input_emb)  # add dropout to weaken the decoder
+            input_emb = sentence_emb[:, i, :-1, :]               # extract the i^th sentence
+            input_emb = self.dropout(input_emb)                  # add dropout to weaken the decoder
             # outputs (Torch.tensor): shape:[batch_size, sentence_length-1, hidden_size]
             outputs, hidden_states = self.decoder(input_embeddings=input_emb, hidden_states=decoder_hidden)
             # token_logits (Torch.tensor): shape:[batch_size,sentence_length-1,27127]
@@ -339,10 +339,10 @@ class CVAE(UnconditionalGenerator):
                 (prior_mean - posterior_mean).pow(2) / torch.exp(prior_logvar), 1
             )
             # cycling weight
-            if epoch_idx % 10 < 5:
-                kld_coef = 0.2 * (epoch_idx % 10)
-            else:
-                kld_coef = 1
+            # if epoch_idx%10<5:
+            #     kld_coef=0.2*(epoch_idx%10)
+            # else:
+            #     kld_coef=1
             # kld_coef=float(epoch_idx%10+1)/self.max_epoch
             # if epoch_idx>=40:
             #     kld_coef=1
@@ -350,7 +350,7 @@ class CVAE(UnconditionalGenerator):
             # if epoch_idx > self.max_epoch - 8:
             #     kld_coef = float(epoch_idx / self.max_epoch)
 
-            # kld_coef=float(epoch_idx / self.max_epoch) + 1e-3
+            kld_coef=float(epoch_idx / self.max_epoch) + 1e-3
             loss = loss.mean() + kld_coef * kld.mean()
             total_loss += loss
 
