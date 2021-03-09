@@ -1,0 +1,317 @@
+Traceback (most recent call last):
+  File "/home/textbox/dyf/TextBox/textbox/utils/utils.py", line 65, in get_model
+    model_class = getattr(model_module, model_name)
+UnboundLocalError: local variable 'model_module' referenced before assignment
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 38, in run_textbox
+    config = Config(model=model, dataset=dataset, config_file_list=config_file_list, config_dict=config_dict)
+  File "/home/textbox/dyf/TextBox/textbox/config/configurator.py", line 76, in __init__
+    self.model, self.model_class, self.dataset = self._get_model_and_dataset(model, dataset)
+  File "/home/textbox/dyf/TextBox/textbox/config/configurator.py", line 197, in _get_model_and_dataset
+    final_model_class = get_model(final_model)
+  File "/home/textbox/dyf/TextBox/textbox/utils/utils.py", line 67, in get_model
+    raise NotImplementedError("{} can't be found".format(model_file_name))
+NotImplementedError: cvae can't be found
+09 Mar 11:37    INFO 
+General Hyper Parameters: 
+gpu_id=0
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=0.001
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=3
+num_dec_layers=3
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+09 Mar 11:37    INFO Loading data from restored
+09 Mar 11:37    INFO Restore finished!
+09 Mar 11:37    INFO Vocab size: 27127
+09 Mar 11:37    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+09 Mar 11:37    INFO Build [poem] DataLoader for [train]
+09 Mar 11:37    INFO batch_size = [[64]], shuffle = [True]
+
+09 Mar 11:37    INFO Build [poem] DataLoader for [evaluation]
+09 Mar 11:37    INFO batch_size = [[64, 64]], shuffle = [False]
+
+09 Mar 11:37    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 42124535
+09 Mar 11:43    INFO epoch 0 training [time: 315.92s, train loss: 10.5180]
+09 Mar 11:48    INFO epoch 1 training [time: 316.26s, train loss: 9.6512]
+09 Mar 11:48    INFO epoch 1 evaluating [time: 5.99s, valid_loss: 2.480642]
+09 Mar 11:48    INFO valid ppl: 11.948936079206947
+09 Mar 11:48    INFO Saving current best: saved/CVAE-CCPC-Mar-09-2021_11-37-39.pth
+09 Mar 11:53    INFO epoch 2 training [time: 314.95s, train loss: 12.2709]
+09 Mar 11:59    INFO epoch 3 training [time: 321.63s, train loss: 14.9290]
+09 Mar 11:59    INFO epoch 3 evaluating [time: 6.10s, valid_loss: 4.992516]
+09 Mar 11:59    INFO valid ppl: 147.30653952740772
+09 Mar 12:04    INFO epoch 4 training [time: 317.87s, train loss: 17.0817]
+09 Mar 12:10    INFO epoch 5 training [time: 360.54s, train loss: 18.6324]
+09 Mar 12:10    INFO epoch 5 evaluating [time: 7.98s, valid_loss: 9.541208]
+09 Mar 12:10    INFO valid ppl: 13921.75038621469
+09 Mar 12:16    INFO epoch 6 training [time: 327.82s, train loss: 19.4330]
+09 Mar 12:21    INFO epoch 7 training [time: 315.75s, train loss: 19.4806]
+09 Mar 12:21    INFO epoch 7 evaluating [time: 6.10s, valid_loss: 16.656942]
+09 Mar 12:21    INFO valid ppl: 17140282.545501817
+09 Mar 12:26    INFO epoch 8 training [time: 315.19s, train loss: 19.1293]
+09 Mar 12:32    INFO epoch 9 training [time: 324.54s, train loss: 18.7631]
+09 Mar 12:32    INFO epoch 9 evaluating [time: 5.96s, valid_loss: 18.517994]
+09 Mar 12:32    INFO valid ppl: 110220557.89291981
+09 Mar 12:37    INFO epoch 10 training [time: 316.02s, train loss: 18.4811]
+09 Mar 12:43    INFO epoch 11 training [time: 316.04s, train loss: 18.2618]
+09 Mar 12:43    INFO epoch 11 evaluating [time: 6.03s, valid_loss: 18.439944]
+09 Mar 12:43    INFO valid ppl: 101945006.7696452
+09 Mar 12:48    INFO epoch 12 training [time: 334.49s, train loss: 18.0546]
+09 Mar 12:54    INFO epoch 13 training [time: 322.39s, train loss: 17.8899]
+09 Mar 12:54    INFO epoch 13 evaluating [time: 6.05s, valid_loss: 18.407296]
+09 Mar 12:54    INFO valid ppl: 98670492.03861247
+09 Mar 12:54    INFO Finished training, best eval result in epoch 1
+09 Mar 12:54    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-09-2021_11-37-39.pth
+09 Mar 13:00    INFO best valid loss: 2.480642243385315, best valid ppl: 11.948936079206947
+09 Mar 13:00    INFO test result: {'bleu-1': 0.0, 'bleu-2': 0.0, 'bleu-3': 0.0, 'bleu-4': 0.0, 'bleu-5': 0.0, 'bleu-avg-bleu': 0.0}
+09 Mar 14:26    INFO 
+General Hyper Parameters: 
+gpu_id=0
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=0.001
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=3
+num_dec_layers=3
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+09 Mar 14:26    INFO Loading data from restored
+09 Mar 14:26    INFO Restore finished!
+09 Mar 14:26    INFO Vocab size: 27127
+09 Mar 14:26    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+09 Mar 14:26    INFO Build [poem] DataLoader for [train]
+09 Mar 14:26    INFO batch_size = [[64]], shuffle = [True]
+
+09 Mar 14:26    INFO Build [poem] DataLoader for [evaluation]
+09 Mar 14:26    INFO batch_size = [[64, 64]], shuffle = [False]
+
+09 Mar 14:27    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 42124535
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/functional.py:1698: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+09 Mar 14:32    INFO epoch 0 training [time: 312.34s, train loss: 10.8893]
+09 Mar 14:37    INFO epoch 1 training [time: 314.12s, train loss: 9.8925]
+09 Mar 14:37    INFO epoch 1 evaluating [time: 6.11s, valid_loss: 2.680241]
+09 Mar 14:37    INFO valid ppl: 14.588612861614155
+09 Mar 14:37    INFO Saving current best: saved/CVAE-CCPC-Mar-09-2021_14-26-50.pth
+09 Mar 14:42    INFO 
+General Hyper Parameters: 
+gpu_id=0
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=0.001
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=3
+num_dec_layers=3
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+09 Mar 14:42    INFO Loading data from restored
+09 Mar 14:42    INFO Restore finished!
+09 Mar 14:42    INFO Vocab size: 27127
+09 Mar 14:42    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+09 Mar 14:42    INFO Build [poem] DataLoader for [train]
+09 Mar 14:42    INFO batch_size = [[64]], shuffle = [True]
+
+09 Mar 14:43    INFO Build [poem] DataLoader for [evaluation]
+09 Mar 14:43    INFO batch_size = [[64, 64]], shuffle = [False]
+
+09 Mar 14:43    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 42124535

@@ -149,9 +149,9 @@ class CVAE(UnconditionalGenerator):
                         condition = torch.cat((single_title_h, pre_h), 1)
                         # mean and logvar of prior：
                         prior_mean = self.MLP_mean_linear1(condition)
-                        prior_mean = self.MLP_mean_linear2(F.relu(prior_mean))
+                        prior_mean = self.MLP_mean_linear2(F.tanh(prior_mean))
                         prior_logvar = self.MLP_logvar_linear1(condition)
-                        prior_logvar = self.MLP_logvar_linear2(F.relu(prior_logvar))
+                        prior_logvar = self.MLP_logvar_linear2(F.tanh(prior_logvar))
                         # sample from prior
                         prior_z = torch.randn([1, self.latent_size]).to(self.device)
                         prior_z = prior_mean + prior_z * torch.exp(0.5 * prior_logvar)
@@ -287,11 +287,11 @@ class CVAE(UnconditionalGenerator):
             # prior_mean (Torch.tensor): shape:[batch_size,MLP_neuron_size]
             prior_mean = self.MLP_mean_linear1(condition)
             # prior_mean (Torch.tensor): shape:[batch_size,latent_size]
-            prior_mean = self.MLP_mean_linear2(F.relu(prior_mean))
+            prior_mean = self.MLP_mean_linear2(F.tanh(prior_mean))
             # prior_logvar (Torch.tensor): shape:[batch_size,MLP_neuron_size]
             prior_logvar = self.MLP_logvar_linear1(condition)
             # prior_logvar (Torch.tensor): shape:[batch_size,latent_size]
-            prior_logvar = self.MLP_logvar_linear2(F.relu(prior_logvar))
+            prior_logvar = self.MLP_logvar_linear2(F.tanh(prior_logvar))
 
             # posterior network
             # posterior_mean (Torch.tensor): shape:[batch_size,latent_size]
