@@ -1,25 +1,235 @@
-Traceback (most recent call last):
-  File "/home/textbox/dyf/TextBox/textbox/utils/utils.py", line 65, in get_model
-    model_class = getattr(model_module, model_name)
-UnboundLocalError: local variable 'model_module' referenced before assignment
+10 Mar 11:56    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
 
-During handling of the above exception, another exception occurred:
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=25
+grad_clip=5.0
 
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=2
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+10 Mar 11:56    INFO Loading data from restored
+10 Mar 11:56    INFO Restore finished!
+10 Mar 11:56    INFO Vocab size: 27127
+10 Mar 11:56    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+10 Mar 11:56    INFO Build [poem] DataLoader for [train]
+10 Mar 11:56    INFO batch_size = [[64]], shuffle = [True]
+
+10 Mar 11:56    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 11:56    INFO batch_size = [[64, 64]], shuffle = [False]
+
+10 Mar 11:56    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 35823863
+10 Mar 12:00    INFO epoch 0 training [time: 228.95s, train loss: 24.9759]
+10 Mar 12:03    INFO epoch 1 training [time: 230.75s, train loss: 23.7338]
+10 Mar 12:04    INFO epoch 1 evaluating [time: 4.79s, valid_loss: 22.354808]
+10 Mar 12:04    INFO valid ppl: 5111752102.999652
+10 Mar 12:04    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 12:07    INFO epoch 2 training [time: 231.60s, train loss: 23.1358]
+10 Mar 12:11    INFO epoch 3 training [time: 229.20s, train loss: 22.8737]
+10 Mar 12:11    INFO epoch 3 evaluating [time: 4.86s, valid_loss: 21.302934]
+10 Mar 12:11    INFO valid ppl: 1785446628.6042354
+10 Mar 12:11    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 12:15    INFO epoch 4 training [time: 231.69s, train loss: 22.7463]
+10 Mar 12:19    INFO epoch 5 training [time: 230.02s, train loss: 22.6244]
+10 Mar 12:19    INFO epoch 5 evaluating [time: 4.89s, valid_loss: 20.604898]
+10 Mar 12:19    INFO valid ppl: 888369348.5952494
+10 Mar 12:19    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 12:23    INFO epoch 6 training [time: 226.64s, train loss: 22.3312]
+10 Mar 12:27    INFO epoch 7 training [time: 229.68s, train loss: 22.1252]
+10 Mar 12:27    INFO epoch 7 evaluating [time: 4.65s, valid_loss: 20.577419]
+10 Mar 12:27    INFO valid ppl: 864290273.660404
+10 Mar 12:27    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 12:31    INFO epoch 8 training [time: 230.75s, train loss: 21.9448]
+10 Mar 12:35    INFO epoch 9 training [time: 230.39s, train loss: 21.7041]
+10 Mar 12:35    INFO epoch 9 evaluating [time: 4.87s, valid_loss: 20.873620]
+10 Mar 12:35    INFO valid ppl: 1162246178.8485715
+10 Mar 12:39    INFO epoch 10 training [time: 226.81s, train loss: 21.4126]
+10 Mar 12:42    INFO epoch 11 training [time: 228.21s, train loss: 21.1257]
+10 Mar 12:42    INFO epoch 11 evaluating [time: 4.67s, valid_loss: 20.741739]
+10 Mar 12:42    INFO valid ppl: 1018645063.4751005
+10 Mar 12:46    INFO epoch 12 training [time: 229.81s, train loss: 20.8632]
+10 Mar 12:50    INFO epoch 13 training [time: 229.04s, train loss: 20.6317]
+10 Mar 12:50    INFO epoch 13 evaluating [time: 4.64s, valid_loss: 20.390545]
+10 Mar 12:50    INFO valid ppl: 716970436.8723757
+10 Mar 12:50    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 12:54    INFO epoch 14 training [time: 230.35s, train loss: 20.3987]
+10 Mar 12:58    INFO epoch 15 training [time: 231.00s, train loss: 20.1713]
+10 Mar 12:58    INFO epoch 15 evaluating [time: 4.77s, valid_loss: 19.997738]
+10 Mar 12:58    INFO valid ppl: 484069150.3145745
+10 Mar 12:58    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:02    INFO epoch 16 training [time: 231.96s, train loss: 19.9877]
+10 Mar 13:06    INFO epoch 17 training [time: 228.77s, train loss: 19.8323]
+10 Mar 13:06    INFO epoch 17 evaluating [time: 4.66s, valid_loss: 19.716042]
+10 Mar 13:06    INFO valid ppl: 365231362.3542955
+10 Mar 13:06    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:10    INFO epoch 18 training [time: 226.79s, train loss: 19.6946]
+10 Mar 13:13    INFO epoch 19 training [time: 231.01s, train loss: 19.5694]
+10 Mar 13:14    INFO epoch 19 evaluating [time: 4.66s, valid_loss: 19.507923]
+10 Mar 13:14    INFO valid ppl: 296608183.08033586
+10 Mar 13:14    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:17    INFO epoch 20 training [time: 229.92s, train loss: 19.4558]
+10 Mar 13:21    INFO epoch 21 training [time: 232.47s, train loss: 19.3527]
+10 Mar 13:21    INFO epoch 21 evaluating [time: 4.62s, valid_loss: 19.326805]
+10 Mar 13:21    INFO valid ppl: 247471228.78050062
+10 Mar 13:21    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:25    INFO epoch 22 training [time: 233.08s, train loss: 19.2554]
+10 Mar 13:29    INFO epoch 23 training [time: 226.59s, train loss: 19.1637]
+10 Mar 13:29    INFO epoch 23 evaluating [time: 4.91s, valid_loss: 19.186320]
+10 Mar 13:29    INFO valid ppl: 215036875.1300451
+10 Mar 13:29    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:33    INFO epoch 24 training [time: 231.30s, train loss: 19.0792]
+10 Mar 13:37    INFO epoch 25 training [time: 228.95s, train loss: 18.9984]
+10 Mar 13:37    INFO epoch 25 evaluating [time: 4.64s, valid_loss: 19.062378]
+10 Mar 13:37    INFO valid ppl: 189970324.90716717
+10 Mar 13:37    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:41    INFO epoch 26 training [time: 229.53s, train loss: 18.9254]
+10 Mar 13:45    INFO epoch 27 training [time: 228.16s, train loss: 18.8528]
+10 Mar 13:45    INFO epoch 27 evaluating [time: 4.76s, valid_loss: 18.952218]
+10 Mar 13:45    INFO valid ppl: 170154624.86529613
+10 Mar 13:45    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:49    INFO epoch 28 training [time: 228.41s, train loss: 18.7848]
+10 Mar 13:52    INFO epoch 29 training [time: 231.47s, train loss: 18.7199]
+10 Mar 13:53    INFO epoch 29 evaluating [time: 4.79s, valid_loss: 18.859057]
+10 Mar 13:53    INFO valid ppl: 155018828.88217756
+10 Mar 13:53    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 13:56    INFO epoch 30 training [time: 230.14s, train loss: 18.6585]
+10 Mar 14:00    INFO epoch 31 training [time: 231.84s, train loss: 18.5994]
+10 Mar 14:00    INFO epoch 31 evaluating [time: 4.80s, valid_loss: 18.772648]
+10 Mar 14:00    INFO valid ppl: 142186232.72898173
+10 Mar 14:00    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:04    INFO epoch 32 training [time: 231.72s, train loss: 18.5411]
+10 Mar 14:08    INFO epoch 33 training [time: 228.55s, train loss: 18.4868]
+10 Mar 14:08    INFO epoch 33 evaluating [time: 4.62s, valid_loss: 18.699749]
+10 Mar 14:08    INFO valid ppl: 132189790.18340708
+10 Mar 14:08    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:12    INFO epoch 34 training [time: 232.54s, train loss: 18.4357]
+10 Mar 14:16    INFO epoch 35 training [time: 230.96s, train loss: 18.3859]
+10 Mar 14:16    INFO epoch 35 evaluating [time: 4.90s, valid_loss: 18.639254]
+10 Mar 14:16    INFO valid ppl: 124429993.5228528
+10 Mar 14:16    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:20    INFO epoch 36 training [time: 230.80s, train loss: 18.3358]
+10 Mar 14:24    INFO epoch 37 training [time: 228.83s, train loss: 18.2888]
+10 Mar 14:24    INFO epoch 37 evaluating [time: 4.68s, valid_loss: 18.577356]
+10 Mar 14:24    INFO valid ppl: 116961581.91058327
+10 Mar 14:24    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:28    INFO epoch 38 training [time: 229.55s, train loss: 18.2441]
+10 Mar 14:32    INFO epoch 39 training [time: 232.33s, train loss: 18.1993]
+10 Mar 14:32    INFO epoch 39 evaluating [time: 4.85s, valid_loss: 18.524801]
+10 Mar 14:32    INFO valid ppl: 110973433.3677934
+10 Mar 14:32    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:36    INFO epoch 40 training [time: 231.04s, train loss: 18.1565]
+10 Mar 14:39    INFO epoch 41 training [time: 227.95s, train loss: 18.1129]
+10 Mar 14:39    INFO epoch 41 evaluating [time: 4.60s, valid_loss: 18.474175]
+10 Mar 14:39    INFO valid ppl: 105495137.00082237
+10 Mar 14:39    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:43    INFO epoch 42 training [time: 230.75s, train loss: 18.0737]
+10 Mar 14:47    INFO epoch 43 training [time: 229.34s, train loss: 18.0354]
+10 Mar 14:47    INFO epoch 43 evaluating [time: 4.61s, valid_loss: 18.430759]
+10 Mar 14:47    INFO valid ppl: 101012938.4970614
+10 Mar 14:47    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:51    INFO epoch 44 training [time: 232.62s, train loss: 17.9968]
+10 Mar 14:55    INFO epoch 45 training [time: 229.74s, train loss: 17.9582]
+10 Mar 14:55    INFO epoch 45 evaluating [time: 4.60s, valid_loss: 18.394063]
+10 Mar 14:55    INFO valid ppl: 97373295.84334941
+10 Mar 14:55    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 14:59    INFO epoch 46 training [time: 231.96s, train loss: 17.9226]
+10 Mar 15:03    INFO epoch 47 training [time: 231.47s, train loss: 17.8877]
+10 Mar 15:03    INFO epoch 47 evaluating [time: 4.61s, valid_loss: 18.356558]
+10 Mar 15:03    INFO valid ppl: 93788955.60527639
+10 Mar 15:03    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 15:07    INFO epoch 48 training [time: 230.51s, train loss: 17.8540]
+10 Mar 15:11    INFO epoch 49 training [time: 229.39s, train loss: 17.8200]
+10 Mar 15:11    INFO epoch 49 evaluating [time: 4.60s, valid_loss: 18.329664]
+10 Mar 15:11    INFO valid ppl: 91300278.70537655
+10 Mar 15:11    INFO Saving current best: saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+10 Mar 15:11    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-10-2021_11-56-05.pth
+9976 20
 Traceback (most recent call last):
   File "run_textbox.py", line 19, in <module>
     run_textbox(
-  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 38, in run_textbox
-    config = Config(model=model, dataset=dataset, config_file_list=config_file_list, config_dict=config_dict)
-  File "/home/textbox/dyf/TextBox/textbox/config/configurator.py", line 76, in __init__
-    self.model, self.model_class, self.dataset = self._get_model_and_dataset(model, dataset)
-  File "/home/textbox/dyf/TextBox/textbox/config/configurator.py", line 197, in _get_model_and_dataset
-    final_model_class = get_model(final_model)
-  File "/home/textbox/dyf/TextBox/textbox/utils/utils.py", line 67, in get_model
-    raise NotImplementedError("{} can't be found".format(model_file_name))
-NotImplementedError: cvae can't be found
-09 Mar 11:37    INFO 
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 67, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 384, in evaluate
+    generate_corpus = self.model.generate(eval_data)
+  File "/home/textbox/dyf/TextBox/textbox/model/VAE/cvae.py", line 193, in generate
+    pre_o, pre_hidden = self.encoder(pre_emb, generate_sentence_length[0])
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/module/Encoder/rnn_encoder.py", line 98, in forward
+    packed_input_embeddings = torch.nn.utils.rnn.pack_padded_sequence(
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/utils/rnn.py", line 245, in pack_padded_sequence
+    _VF._pack_padded_sequence(input, lengths, batch_first)
+RuntimeError: Cannot pack empty tensors.
+10 Mar 15:46    INFO 
 General Hyper Parameters: 
-gpu_id=0
+gpu_id=2
 use_gpu=True
 seed=2020
 state=INFO
@@ -29,10 +239,10 @@ checkpoint_dir=saved/
 generated_text_dir=generated/
 
 Training Hyper Parameters: 
-epochs=50
+epochs=20
 train_batch_size=64
 learner=adam
-learning_rate=0.001
+learning_rate=1e-05
 eval_step=2
 stopping_step=5
 grad_clip=5.0
@@ -50,8 +260,8 @@ latent_size=256
 MLP_neuron_size=512
 rnn_type=gru
 num_highway_layers=2
-num_enc_layers=3
-num_dec_layers=3
+num_enc_layers=2
+num_dec_layers=2
 bidirectional=True
 dropout_ratio=0.5
 
@@ -72,24 +282,24 @@ tokenize_strategy=by_space
 language=Chinese
 
 
-09 Mar 11:37    INFO Loading data from restored
-09 Mar 11:37    INFO Restore finished!
-09 Mar 11:37    INFO Vocab size: 27127
-09 Mar 11:37    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+10 Mar 15:46    INFO Loading data from restored
+10 Mar 15:46    INFO Restore finished!
+10 Mar 15:46    INFO Vocab size: 27127
+10 Mar 15:46    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
 
-09 Mar 11:37    INFO Build [poem] DataLoader for [train]
-09 Mar 11:37    INFO batch_size = [[64]], shuffle = [True]
+10 Mar 15:46    INFO Build [poem] DataLoader for [train]
+10 Mar 15:46    INFO batch_size = [[64]], shuffle = [True]
 
-09 Mar 11:37    INFO Build [poem] DataLoader for [evaluation]
-09 Mar 11:37    INFO batch_size = [[64, 64]], shuffle = [False]
+10 Mar 15:46    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 15:46    INFO batch_size = [[64, 64]], shuffle = [False]
 
-09 Mar 11:37    INFO CVAE(
+10 Mar 15:46    INFO CVAE(
   (token_embedder): Embedding(27127, 256, padding_idx=0)
   (encoder): BasicRNNEncoder(
-    (encoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5, bidirectional=True)
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
   )
   (decoder): BasicRNNDecoder(
-    (decoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5)
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
   )
   (dropout): Dropout(p=0.5, inplace=False)
   (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
@@ -102,43 +312,27 @@ language=Chinese
   (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
   (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
 )
-Trainable parameters: 42124535
-09 Mar 11:43    INFO epoch 0 training [time: 315.92s, train loss: 10.5180]
-09 Mar 11:48    INFO epoch 1 training [time: 316.26s, train loss: 9.6512]
-09 Mar 11:48    INFO epoch 1 evaluating [time: 5.99s, valid_loss: 2.480642]
-09 Mar 11:48    INFO valid ppl: 11.948936079206947
-09 Mar 11:48    INFO Saving current best: saved/CVAE-CCPC-Mar-09-2021_11-37-39.pth
-09 Mar 11:53    INFO epoch 2 training [time: 314.95s, train loss: 12.2709]
-09 Mar 11:59    INFO epoch 3 training [time: 321.63s, train loss: 14.9290]
-09 Mar 11:59    INFO epoch 3 evaluating [time: 6.10s, valid_loss: 4.992516]
-09 Mar 11:59    INFO valid ppl: 147.30653952740772
-09 Mar 12:04    INFO epoch 4 training [time: 317.87s, train loss: 17.0817]
-09 Mar 12:10    INFO epoch 5 training [time: 360.54s, train loss: 18.6324]
-09 Mar 12:10    INFO epoch 5 evaluating [time: 7.98s, valid_loss: 9.541208]
-09 Mar 12:10    INFO valid ppl: 13921.75038621469
-09 Mar 12:16    INFO epoch 6 training [time: 327.82s, train loss: 19.4330]
-09 Mar 12:21    INFO epoch 7 training [time: 315.75s, train loss: 19.4806]
-09 Mar 12:21    INFO epoch 7 evaluating [time: 6.10s, valid_loss: 16.656942]
-09 Mar 12:21    INFO valid ppl: 17140282.545501817
-09 Mar 12:26    INFO epoch 8 training [time: 315.19s, train loss: 19.1293]
-09 Mar 12:32    INFO epoch 9 training [time: 324.54s, train loss: 18.7631]
-09 Mar 12:32    INFO epoch 9 evaluating [time: 5.96s, valid_loss: 18.517994]
-09 Mar 12:32    INFO valid ppl: 110220557.89291981
-09 Mar 12:37    INFO epoch 10 training [time: 316.02s, train loss: 18.4811]
-09 Mar 12:43    INFO epoch 11 training [time: 316.04s, train loss: 18.2618]
-09 Mar 12:43    INFO epoch 11 evaluating [time: 6.03s, valid_loss: 18.439944]
-09 Mar 12:43    INFO valid ppl: 101945006.7696452
-09 Mar 12:48    INFO epoch 12 training [time: 334.49s, train loss: 18.0546]
-09 Mar 12:54    INFO epoch 13 training [time: 322.39s, train loss: 17.8899]
-09 Mar 12:54    INFO epoch 13 evaluating [time: 6.05s, valid_loss: 18.407296]
-09 Mar 12:54    INFO valid ppl: 98670492.03861247
-09 Mar 12:54    INFO Finished training, best eval result in epoch 1
-09 Mar 12:54    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-09-2021_11-37-39.pth
-09 Mar 13:00    INFO best valid loss: 2.480642243385315, best valid ppl: 11.948936079206947
-09 Mar 13:00    INFO test result: {'bleu-1': 0.0, 'bleu-2': 0.0, 'bleu-3': 0.0, 'bleu-4': 0.0, 'bleu-5': 0.0, 'bleu-avg-bleu': 0.0}
-09 Mar 14:26    INFO 
+Trainable parameters: 35823863
+10 Mar 15:46    INFO Checkpoint loaded. Resume training from epoch 50
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 67, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 368, in evaluate
+    checkpoint = torch.load(checkpoint_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'saved/CVAE-CCPC-Mar-10-2021_15-46-04.pth'
+10 Mar 16:11    INFO 
 General Hyper Parameters: 
-gpu_id=0
+gpu_id=2
 use_gpu=True
 seed=2020
 state=INFO
@@ -148,10 +342,10 @@ checkpoint_dir=saved/
 generated_text_dir=generated/
 
 Training Hyper Parameters: 
-epochs=50
+epochs=20
 train_batch_size=64
 learner=adam
-learning_rate=0.001
+learning_rate=1e-05
 eval_step=2
 stopping_step=5
 grad_clip=5.0
@@ -169,8 +363,8 @@ latent_size=256
 MLP_neuron_size=512
 rnn_type=gru
 num_highway_layers=2
-num_enc_layers=3
-num_dec_layers=3
+num_enc_layers=2
+num_dec_layers=2
 bidirectional=True
 dropout_ratio=0.5
 
@@ -191,24 +385,24 @@ tokenize_strategy=by_space
 language=Chinese
 
 
-09 Mar 14:26    INFO Loading data from restored
-09 Mar 14:26    INFO Restore finished!
-09 Mar 14:26    INFO Vocab size: 27127
-09 Mar 14:26    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+10 Mar 16:11    INFO Loading data from restored
+10 Mar 16:11    INFO Restore finished!
+10 Mar 16:11    INFO Vocab size: 27127
+10 Mar 16:11    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
 
-09 Mar 14:26    INFO Build [poem] DataLoader for [train]
-09 Mar 14:26    INFO batch_size = [[64]], shuffle = [True]
+10 Mar 16:11    INFO Build [poem] DataLoader for [train]
+10 Mar 16:11    INFO batch_size = [[64]], shuffle = [True]
 
-09 Mar 14:26    INFO Build [poem] DataLoader for [evaluation]
-09 Mar 14:26    INFO batch_size = [[64, 64]], shuffle = [False]
+10 Mar 16:11    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 16:11    INFO batch_size = [[64, 64]], shuffle = [False]
 
-09 Mar 14:27    INFO CVAE(
+10 Mar 16:11    INFO CVAE(
   (token_embedder): Embedding(27127, 256, padding_idx=0)
   (encoder): BasicRNNEncoder(
-    (encoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5, bidirectional=True)
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
   )
   (decoder): BasicRNNDecoder(
-    (decoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5)
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
   )
   (dropout): Dropout(p=0.5, inplace=False)
   (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
@@ -221,17 +415,27 @@ language=Chinese
   (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
   (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
 )
-Trainable parameters: 42124535
-/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/functional.py:1698: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
-  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
-09 Mar 14:32    INFO epoch 0 training [time: 312.34s, train loss: 10.8893]
-09 Mar 14:37    INFO epoch 1 training [time: 314.12s, train loss: 9.8925]
-09 Mar 14:37    INFO epoch 1 evaluating [time: 6.11s, valid_loss: 2.680241]
-09 Mar 14:37    INFO valid ppl: 14.588612861614155
-09 Mar 14:37    INFO Saving current best: saved/CVAE-CCPC-Mar-09-2021_14-26-50.pth
-09 Mar 14:42    INFO 
+Trainable parameters: 35823863
+10 Mar 16:11    INFO Checkpoint loaded. Resume training from epoch 50
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 67, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 368, in evaluate
+    checkpoint = torch.load(checkpoint_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'saved/CVAE-CCPC-Mar-10-2021_16-11-46.pth'
+10 Mar 18:14    INFO 
 General Hyper Parameters: 
-gpu_id=0
+gpu_id=2
 use_gpu=True
 seed=2020
 state=INFO
@@ -241,12 +445,12 @@ checkpoint_dir=saved/
 generated_text_dir=generated/
 
 Training Hyper Parameters: 
-epochs=50
+epochs=20
 train_batch_size=64
 learner=adam
-learning_rate=0.001
+learning_rate=1e-05
 eval_step=2
-stopping_step=5
+stopping_step=25
 grad_clip=5.0
 
 Evaluation Hyper Parameters: 
@@ -262,8 +466,8 @@ latent_size=256
 MLP_neuron_size=512
 rnn_type=gru
 num_highway_layers=2
-num_enc_layers=3
-num_dec_layers=3
+num_enc_layers=2
+num_dec_layers=2
 bidirectional=True
 dropout_ratio=0.5
 
@@ -284,24 +488,24 @@ tokenize_strategy=by_space
 language=Chinese
 
 
-09 Mar 14:42    INFO Loading data from restored
-09 Mar 14:42    INFO Restore finished!
-09 Mar 14:42    INFO Vocab size: 27127
-09 Mar 14:42    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+10 Mar 18:14    INFO Loading data from restored
+10 Mar 18:15    INFO Restore finished!
+10 Mar 18:15    INFO Vocab size: 27127
+10 Mar 18:15    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
 
-09 Mar 14:42    INFO Build [poem] DataLoader for [train]
-09 Mar 14:42    INFO batch_size = [[64]], shuffle = [True]
+10 Mar 18:15    INFO Build [poem] DataLoader for [train]
+10 Mar 18:15    INFO batch_size = [[64]], shuffle = [True]
 
-09 Mar 14:43    INFO Build [poem] DataLoader for [evaluation]
-09 Mar 14:43    INFO batch_size = [[64, 64]], shuffle = [False]
+10 Mar 18:15    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 18:15    INFO batch_size = [[64, 64]], shuffle = [False]
 
-09 Mar 14:43    INFO CVAE(
+10 Mar 18:15    INFO CVAE(
   (token_embedder): Embedding(27127, 256, padding_idx=0)
   (encoder): BasicRNNEncoder(
-    (encoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5, bidirectional=True)
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
   )
   (decoder): BasicRNNDecoder(
-    (decoder): GRU(256, 512, num_layers=3, batch_first=True, dropout=0.5)
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
   )
   (dropout): Dropout(p=0.5, inplace=False)
   (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
@@ -314,4 +518,2376 @@ language=Chinese
   (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
   (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
 )
-Trainable parameters: 42124535
+Trainable parameters: 35823863
+10 Mar 18:15    INFO Checkpoint loaded. Resume training from epoch 50
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 67, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 368, in evaluate
+    checkpoint = torch.load(checkpoint_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'saved/CVAE-CCPC-Mar-10-2021_18-14-58.pth'
+10 Mar 18:16    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=20
+train_batch_size=64
+learner=adam
+learning_rate=1e-05
+eval_step=2
+stopping_step=25
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=2
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+10 Mar 18:16    INFO Loading data from restored
+10 Mar 18:16    INFO Restore finished!
+10 Mar 18:16    INFO Vocab size: 27127
+10 Mar 18:16    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+10 Mar 18:16    INFO Build [poem] DataLoader for [train]
+10 Mar 18:16    INFO batch_size = [[64]], shuffle = [True]
+
+10 Mar 18:16    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 18:16    INFO batch_size = [[64, 64]], shuffle = [False]
+
+10 Mar 18:16    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 35823863
+10 Mar 18:16    INFO Checkpoint loaded. Resume training from epoch 50
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 67, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 368, in evaluate
+    checkpoint = torch.load(checkpoint_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'saved/CVAE-CCPC-Mar-10-2021_18-16-44.pth'
+10 Mar 18:18    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=20
+train_batch_size=64
+learner=adam
+learning_rate=1e-05
+eval_step=2
+stopping_step=25
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=2
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+10 Mar 18:18    INFO Loading data from restored
+10 Mar 18:18    INFO Restore finished!
+10 Mar 18:18    INFO Vocab size: 27127
+10 Mar 18:18    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+10 Mar 18:18    INFO Build [poem] DataLoader for [train]
+10 Mar 18:18    INFO batch_size = [[64]], shuffle = [True]
+
+10 Mar 18:18    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 18:18    INFO batch_size = [[64, 64]], shuffle = [False]
+
+10 Mar 18:18    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 35823863
+10 Mar 18:18    INFO Checkpoint loaded. Resume training from epoch 50
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 67, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 368, in evaluate
+    checkpoint = torch.load(checkpoint_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'saved/CVAE-CCPC-Mar-10-2021_18-18-24.pth'
+10 Mar 18:19    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=20
+train_batch_size=64
+learner=adam
+learning_rate=1e-05
+eval_step=2
+stopping_step=25
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=2
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+10 Mar 18:19    INFO Loading data from restored
+10 Mar 18:19    INFO Restore finished!
+10 Mar 18:19    INFO Vocab size: 27127
+10 Mar 18:19    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+10 Mar 18:19    INFO Build [poem] DataLoader for [train]
+10 Mar 18:19    INFO batch_size = [[64]], shuffle = [True]
+
+10 Mar 18:19    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 18:19    INFO batch_size = [[64, 64]], shuffle = [False]
+
+10 Mar 18:19    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 35823863
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 62, in run_textbox
+    trainer.resume_checkpoint(resume_file=config['load_experiment'])
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 233, in resume_checkpoint
+    checkpoint = torch.load(resume_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'CVAE-CCPC-Mar-10-2021_11-56-05.pth'
+command line args [--gpu_id=2--learning_rate=0.00001] will not be used in TextBox
+10 Mar 18:32    INFO 
+General Hyper Parameters: 
+gpu_id=0
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=20
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=2
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+10 Mar 18:32    INFO Loading data from restored
+10 Mar 18:32    INFO Restore finished!
+10 Mar 18:32    INFO Vocab size: 27127
+10 Mar 18:32    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+10 Mar 18:32    INFO Build [poem] DataLoader for [train]
+10 Mar 18:32    INFO batch_size = [[64]], shuffle = [True]
+
+10 Mar 18:32    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 18:32    INFO batch_size = [[64, 64]], shuffle = [False]
+
+10 Mar 18:32    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 35823863
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 62, in run_textbox
+    trainer.resume_checkpoint(resume_file=config['load_experiment'])
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 233, in resume_checkpoint
+    checkpoint = torch.load(resume_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'CVAE-CCPC-Mar-10-2021_11-56-05'
+command line args [--gpu_id=2--learning_rate=0.00001] will not be used in TextBox
+10 Mar 18:38    INFO 
+General Hyper Parameters: 
+gpu_id=0
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=20
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=2
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+10 Mar 18:38    INFO Loading data from restored
+10 Mar 18:38    INFO Restore finished!
+10 Mar 18:38    INFO Vocab size: 27127
+10 Mar 18:38    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+10 Mar 18:38    INFO Build [poem] DataLoader for [train]
+10 Mar 18:38    INFO batch_size = [[64]], shuffle = [True]
+
+10 Mar 18:38    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 18:38    INFO batch_size = [[64, 64]], shuffle = [False]
+
+10 Mar 18:38    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 35823863
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 62, in run_textbox
+    trainer.resume_checkpoint(resume_file=config['load_experiment'])
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 233, in resume_checkpoint
+    checkpoint = torch.load(resume_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'saved/CVAE-CCPC-Mar-10-2021_11-56-05'
+command line args [--gpu_id=2--learning_rate=0.00001] will not be used in TextBox
+10 Mar 18:40    INFO 
+General Hyper Parameters: 
+gpu_id=0
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=20
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=256
+hidden_size=512
+latent_size=256
+MLP_neuron_size=512
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=2
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+10 Mar 18:40    INFO Loading data from restored
+10 Mar 18:40    INFO Restore finished!
+10 Mar 18:40    INFO Vocab size: 27127
+10 Mar 18:40    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+10 Mar 18:40    INFO Build [poem] DataLoader for [train]
+10 Mar 18:40    INFO batch_size = [[64]], shuffle = [True]
+
+10 Mar 18:40    INFO Build [poem] DataLoader for [evaluation]
+10 Mar 18:40    INFO batch_size = [[64, 64]], shuffle = [False]
+
+10 Mar 18:40    INFO CVAE(
+  (token_embedder): Embedding(27127, 256, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(256, 512, num_layers=2, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=512, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_mean_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2048, out_features=512, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=512, out_features=256, bias=True)
+  (hidden_to_mean): Linear(in_features=3072, out_features=256, bias=True)
+  (hidden_to_logvar): Linear(in_features=3072, out_features=256, bias=True)
+  (latent_to_hidden): Linear(in_features=2304, out_features=512, bias=True)
+)
+Trainable parameters: 35823863
+10 Mar 18:40    INFO Checkpoint loaded. Resume training from epoch 50
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 67, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 368, in evaluate
+    checkpoint = torch.load(checkpoint_file)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 579, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'saved/CVAE-CCPC-Mar-10-2021_18-40-12.pth'
+11 Mar 07:23    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 07:23    INFO Loading data from restored
+11 Mar 07:23    INFO Restore finished!
+11 Mar 07:23    INFO Vocab size: 27127
+11 Mar 07:23    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 07:23    INFO Build [poem] DataLoader for [train]
+11 Mar 07:23    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 07:23    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 07:23    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 07:23    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 07:27    INFO epoch 0 training [time: 207.60s, train loss: 24.9559]
+11 Mar 07:30    INFO epoch 1 training [time: 218.84s, train loss: 23.5173]
+11 Mar 07:30    INFO epoch 1 evaluating [time: 4.53s, valid_loss: 21.982827]
+11 Mar 07:30    INFO valid ppl: 3523875210.8795977
+11 Mar 07:30    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 07:34    INFO epoch 2 training [time: 211.05s, train loss: 23.0251]
+11 Mar 07:38    INFO epoch 3 training [time: 210.85s, train loss: 22.7658]
+11 Mar 07:38    INFO epoch 3 evaluating [time: 4.59s, valid_loss: 21.082372]
+11 Mar 07:38    INFO valid ppl: 1432048487.842343
+11 Mar 07:38    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 07:41    INFO epoch 4 training [time: 214.41s, train loss: 22.5691]
+11 Mar 07:45    INFO epoch 5 training [time: 217.03s, train loss: 22.3686]
+11 Mar 07:45    INFO epoch 5 evaluating [time: 4.83s, valid_loss: 20.671982]
+11 Mar 07:45    INFO valid ppl: 950009240.4367763
+11 Mar 07:45    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 07:48    INFO epoch 6 training [time: 210.57s, train loss: 22.0964]
+11 Mar 07:52    INFO epoch 7 training [time: 218.32s, train loss: 21.7647]
+11 Mar 07:52    INFO epoch 7 evaluating [time: 4.51s, valid_loss: 20.514403]
+11 Mar 07:52    INFO valid ppl: 811506449.9473183
+11 Mar 07:52    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 07:56    INFO epoch 8 training [time: 216.01s, train loss: 21.5147]
+11 Mar 08:00    INFO epoch 9 training [time: 222.43s, train loss: 21.2708]
+11 Mar 08:00    INFO epoch 9 evaluating [time: 4.58s, valid_loss: 20.554285]
+11 Mar 08:00    INFO valid ppl: 844524986.9117773
+11 Mar 08:03    INFO epoch 10 training [time: 216.50s, train loss: 21.0028]
+11 Mar 08:07    INFO epoch 11 training [time: 217.40s, train loss: 20.7181]
+11 Mar 08:07    INFO epoch 11 evaluating [time: 4.52s, valid_loss: 20.414979]
+11 Mar 08:07    INFO valid ppl: 734704819.3000591
+11 Mar 08:07    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 08:11    INFO epoch 12 training [time: 216.14s, train loss: 20.4514]
+11 Mar 08:14    INFO epoch 13 training [time: 216.42s, train loss: 20.2185]
+11 Mar 08:14    INFO epoch 13 evaluating [time: 4.83s, valid_loss: 20.094404]
+11 Mar 08:14    INFO valid ppl: 533198529.52115625
+11 Mar 08:14    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 08:18    INFO epoch 14 training [time: 213.04s, train loss: 20.0258]
+11 Mar 08:21    INFO epoch 15 training [time: 215.59s, train loss: 19.8557]
+11 Mar 08:22    INFO epoch 15 evaluating [time: 4.59s, valid_loss: 19.791698]
+11 Mar 08:22    INFO valid ppl: 393935580.3602018
+11 Mar 08:22    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 08:25    INFO epoch 16 training [time: 219.73s, train loss: 19.6908]
+11 Mar 08:29    INFO epoch 17 training [time: 219.93s, train loss: 19.5376]
+11 Mar 08:29    INFO epoch 17 evaluating [time: 4.54s, valid_loss: 19.517102]
+11 Mar 08:29    INFO valid ppl: 299343479.79427654
+11 Mar 08:29    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 08:33    INFO epoch 18 training [time: 216.47s, train loss: 19.3995]
+11 Mar 08:36    INFO epoch 19 training [time: 219.86s, train loss: 19.2660]
+11 Mar 08:36    INFO epoch 19 evaluating [time: 4.52s, valid_loss: 19.297014]
+11 Mar 08:36    INFO valid ppl: 240207587.01326323
+11 Mar 08:36    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 08:40    INFO epoch 20 training [time: 214.61s, train loss: 19.1393]
+11 Mar 08:44    INFO epoch 21 training [time: 219.25s, train loss: 19.0258]
+11 Mar 08:44    INFO epoch 21 evaluating [time: 4.62s, valid_loss: 19.107190]
+11 Mar 08:44    INFO valid ppl: 198676745.35910332
+11 Mar 08:44    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 08:47    INFO epoch 22 training [time: 216.59s, train loss: 18.9267]
+11 Mar 08:51    INFO epoch 23 training [time: 220.50s, train loss: 18.8345]
+11 Mar 08:51    INFO epoch 23 evaluating [time: 4.54s, valid_loss: 18.952716]
+11 Mar 08:51    INFO valid ppl: 170239427.3185286
+11 Mar 08:51    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 08:55    INFO epoch 24 training [time: 219.49s, train loss: 18.7498]
+11 Mar 08:59    INFO epoch 25 training [time: 216.93s, train loss: 18.6711]
+11 Mar 08:59    INFO epoch 25 evaluating [time: 4.55s, valid_loss: 18.828632]
+11 Mar 08:59    INFO valid ppl: 150373391.30326712
+11 Mar 08:59    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:02    INFO epoch 26 training [time: 211.03s, train loss: 18.5962]
+11 Mar 09:06    INFO epoch 27 training [time: 215.70s, train loss: 18.5264]
+11 Mar 09:06    INFO epoch 27 evaluating [time: 4.59s, valid_loss: 18.718183]
+11 Mar 09:06    INFO valid ppl: 134649143.18359107
+11 Mar 09:06    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:09    INFO epoch 28 training [time: 215.49s, train loss: 18.4597]
+11 Mar 09:13    INFO epoch 29 training [time: 220.84s, train loss: 18.3961]
+11 Mar 09:13    INFO epoch 29 evaluating [time: 4.55s, valid_loss: 18.623124]
+11 Mar 09:13    INFO valid ppl: 122439069.11332485
+11 Mar 09:13    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:17    INFO epoch 30 training [time: 218.57s, train loss: 18.3357]
+11 Mar 09:21    INFO epoch 31 training [time: 215.24s, train loss: 18.2779]
+11 Mar 09:21    INFO epoch 31 evaluating [time: 4.53s, valid_loss: 18.542144]
+11 Mar 09:21    INFO valid ppl: 112914771.75720765
+11 Mar 09:21    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:24    INFO epoch 32 training [time: 210.35s, train loss: 18.2236]
+11 Mar 09:28    INFO epoch 33 training [time: 216.36s, train loss: 18.1728]
+11 Mar 09:28    INFO epoch 33 evaluating [time: 4.51s, valid_loss: 18.463295]
+11 Mar 09:28    INFO valid ppl: 104353548.48685364
+11 Mar 09:28    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:32    INFO epoch 34 training [time: 218.62s, train loss: 18.1213]
+11 Mar 09:35    INFO epoch 35 training [time: 216.04s, train loss: 18.0712]
+11 Mar 09:35    INFO epoch 35 evaluating [time: 4.63s, valid_loss: 18.407003]
+11 Mar 09:35    INFO valid ppl: 98641515.14958145
+11 Mar 09:35    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:39    INFO epoch 36 training [time: 221.00s, train loss: 18.0255]
+11 Mar 09:43    INFO epoch 37 training [time: 220.45s, train loss: 17.9793]
+11 Mar 09:43    INFO epoch 37 evaluating [time: 4.67s, valid_loss: 18.349371]
+11 Mar 09:43    INFO valid ppl: 93117322.5243827
+11 Mar 09:43    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:46    INFO epoch 38 training [time: 222.07s, train loss: 17.9360]
+11 Mar 09:50    INFO epoch 39 training [time: 220.83s, train loss: 17.8929]
+11 Mar 09:50    INFO epoch 39 evaluating [time: 4.54s, valid_loss: 18.289460]
+11 Mar 09:50    INFO valid ppl: 87702383.99557957
+11 Mar 09:50    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 09:54    INFO epoch 40 training [time: 218.97s, train loss: 17.8512]
+11 Mar 09:58    INFO epoch 41 training [time: 219.96s, train loss: 17.8098]
+11 Mar 09:58    INFO epoch 41 evaluating [time: 4.87s, valid_loss: 18.239997]
+11 Mar 09:58    INFO valid ppl: 83469890.85703339
+11 Mar 09:58    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 10:01    INFO epoch 42 training [time: 220.45s, train loss: 17.7739]
+11 Mar 10:05    INFO epoch 43 training [time: 219.99s, train loss: 17.7360]
+11 Mar 10:05    INFO epoch 43 evaluating [time: 4.57s, valid_loss: 18.201175]
+11 Mar 10:05    INFO valid ppl: 80291575.64972913
+11 Mar 10:05    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 10:09    INFO epoch 44 training [time: 220.35s, train loss: 17.6974]
+11 Mar 10:13    INFO epoch 45 training [time: 219.88s, train loss: 17.6621]
+11 Mar 10:13    INFO epoch 45 evaluating [time: 4.56s, valid_loss: 18.157987]
+11 Mar 10:13    INFO valid ppl: 76897714.19061281
+11 Mar 10:13    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 10:16    INFO epoch 46 training [time: 219.49s, train loss: 17.6262]
+11 Mar 10:20    INFO epoch 47 training [time: 222.88s, train loss: 17.5925]
+11 Mar 10:20    INFO epoch 47 evaluating [time: 4.61s, valid_loss: 18.120521]
+11 Mar 10:20    INFO valid ppl: 74070008.94487761
+11 Mar 10:20    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 10:24    INFO epoch 48 training [time: 220.30s, train loss: 17.5584]
+11 Mar 10:27    INFO epoch 49 training [time: 218.25s, train loss: 17.5258]
+11 Mar 10:28    INFO epoch 49 evaluating [time: 4.54s, valid_loss: 18.096142]
+11 Mar 10:28    INFO valid ppl: 72286090.89610392
+11 Mar 10:28    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 10:28    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth
+11 Mar 10:34    INFO best valid loss: 18.096142288208007, best valid ppl: 72286090.89610392
+11 Mar 10:34    INFO test result: {'bleu-1': 0.0605, 'bleu-2': 0.0041, 'bleu-3': 0.0035, 'bleu-4': 0.0036, 'bleu-5': 0.0038, 'bleu-avg-bleu': 0.0071}
+command line args [load_experiment=saved/CVAE-CCPC-Mar-11-2021_07-23-31.pth] will not be used in TextBox
+11 Mar 12:15    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 12:15    INFO Loading data from restored
+11 Mar 12:15    INFO Restore finished!
+11 Mar 12:15    INFO Vocab size: 27127
+11 Mar 12:15    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 12:15    INFO Build [poem] DataLoader for [train]
+11 Mar 12:15    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 12:15    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 12:15    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 12:15    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 12:19    INFO epoch 0 training [time: 215.24s, train loss: 26.0124]
+11 Mar 12:23    INFO epoch 1 training [time: 219.64s, train loss: 24.0595]
+11 Mar 12:23    INFO epoch 1 evaluating [time: 4.54s, valid_loss: 23.563039]
+11 Mar 12:23    INFO valid ppl: 17111882731.2149
+11 Mar 12:23    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-15-34.pth
+11 Mar 12:24    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 12:24    INFO Loading data from restored
+11 Mar 12:24    INFO Restore finished!
+11 Mar 12:24    INFO Vocab size: 27127
+11 Mar 12:24    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 12:24    INFO Build [poem] DataLoader for [train]
+11 Mar 12:24    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 12:25    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 12:25    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 12:25    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 12:25    INFO Checkpoint loaded. Resume training from epoch 50
+11 Mar 12:28    INFO epoch 50 training [time: 218.32s, train loss: 17.4926]
+11 Mar 12:32    INFO epoch 51 training [time: 219.61s, train loss: 17.4600]
+11 Mar 12:32    INFO epoch 51 evaluating [time: 4.61s, valid_loss: 18.079459]
+11 Mar 12:32    INFO valid ppl: 71090128.49561043
+11 Mar 12:32    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 12:36    INFO epoch 52 training [time: 218.84s, train loss: 17.4287]
+11 Mar 12:39    INFO epoch 53 training [time: 220.38s, train loss: 17.3990]
+11 Mar 12:39    INFO epoch 53 evaluating [time: 4.58s, valid_loss: 18.063122]
+11 Mar 12:39    INFO valid ppl: 69938176.91882491
+11 Mar 12:40    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 12:43    INFO epoch 54 training [time: 219.58s, train loss: 17.3686]
+11 Mar 12:47    INFO epoch 55 training [time: 217.25s, train loss: 17.3400]
+11 Mar 12:47    INFO epoch 55 evaluating [time: 4.58s, valid_loss: 18.021157]
+11 Mar 12:47    INFO valid ppl: 67063915.98261217
+11 Mar 12:47    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 12:51    INFO epoch 56 training [time: 219.48s, train loss: 17.3130]
+11 Mar 12:54    INFO epoch 57 training [time: 221.34s, train loss: 17.2808]
+11 Mar 12:54    INFO epoch 57 evaluating [time: 4.50s, valid_loss: 18.011012]
+11 Mar 12:54    INFO valid ppl: 66387027.22823034
+11 Mar 12:54    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 12:58    INFO epoch 58 training [time: 220.25s, train loss: 17.2546]
+11 Mar 13:02    INFO epoch 59 training [time: 219.82s, train loss: 17.2276]
+11 Mar 13:02    INFO epoch 59 evaluating [time: 4.80s, valid_loss: 17.991951]
+11 Mar 13:02    INFO valid ppl: 65133599.51272088
+11 Mar 13:02    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:06    INFO epoch 60 training [time: 219.99s, train loss: 17.2007]
+11 Mar 13:09    INFO epoch 61 training [time: 218.66s, train loss: 17.1734]
+11 Mar 13:09    INFO epoch 61 evaluating [time: 4.86s, valid_loss: 17.970271]
+11 Mar 13:09    INFO valid ppl: 63736707.45277739
+11 Mar 13:09    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:13    INFO epoch 62 training [time: 219.61s, train loss: 17.1476]
+11 Mar 13:17    INFO epoch 63 training [time: 219.46s, train loss: 17.1213]
+11 Mar 13:17    INFO epoch 63 evaluating [time: 4.55s, valid_loss: 17.961989]
+11 Mar 13:17    INFO valid ppl: 63211019.10062261
+11 Mar 13:17    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:20    INFO epoch 64 training [time: 220.20s, train loss: 17.0969]
+11 Mar 13:24    INFO epoch 65 training [time: 218.12s, train loss: 17.0731]
+11 Mar 13:24    INFO epoch 65 evaluating [time: 4.79s, valid_loss: 17.947279]
+11 Mar 13:24    INFO valid ppl: 62288008.16895311
+11 Mar 13:24    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:28    INFO epoch 66 training [time: 220.78s, train loss: 17.0485]
+11 Mar 13:32    INFO epoch 67 training [time: 221.37s, train loss: 17.0243]
+11 Mar 13:32    INFO epoch 67 evaluating [time: 4.52s, valid_loss: 17.938974]
+11 Mar 13:32    INFO valid ppl: 61772812.114835165
+11 Mar 13:32    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:35    INFO epoch 68 training [time: 217.60s, train loss: 17.0025]
+11 Mar 13:39    INFO epoch 69 training [time: 220.64s, train loss: 16.9781]
+11 Mar 13:39    INFO epoch 69 evaluating [time: 4.58s, valid_loss: 17.929046]
+11 Mar 13:39    INFO valid ppl: 61162546.69290245
+11 Mar 13:39    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:43    INFO epoch 70 training [time: 219.11s, train loss: 16.9539]
+11 Mar 13:46    INFO epoch 71 training [time: 220.63s, train loss: 16.9331]
+11 Mar 13:47    INFO epoch 71 evaluating [time: 4.54s, valid_loss: 17.921287]
+11 Mar 13:47    INFO valid ppl: 60689859.676197894
+11 Mar 13:47    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:50    INFO epoch 72 training [time: 219.08s, train loss: 16.9095]
+11 Mar 13:54    INFO epoch 73 training [time: 220.33s, train loss: 16.8891]
+11 Mar 13:54    INFO epoch 73 evaluating [time: 4.56s, valid_loss: 17.915894]
+11 Mar 13:54    INFO valid ppl: 60363448.20954645
+11 Mar 13:54    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 13:58    INFO epoch 74 training [time: 221.43s, train loss: 16.8664]
+11 Mar 14:01    INFO epoch 75 training [time: 219.45s, train loss: 16.8463]
+11 Mar 14:01    INFO epoch 75 evaluating [time: 4.68s, valid_loss: 17.914015]
+11 Mar 14:01    INFO valid ppl: 60250093.30442956
+11 Mar 14:02    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 14:05    INFO epoch 76 training [time: 221.83s, train loss: 16.8254]
+11 Mar 14:09    INFO epoch 77 training [time: 218.33s, train loss: 16.8052]
+11 Mar 14:09    INFO epoch 77 evaluating [time: 4.80s, valid_loss: 17.904705]
+11 Mar 14:09    INFO valid ppl: 59691758.099633746
+11 Mar 14:09    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 14:13    INFO epoch 78 training [time: 217.75s, train loss: 16.7814]
+11 Mar 14:16    INFO epoch 79 training [time: 219.39s, train loss: 16.7611]
+11 Mar 14:16    INFO epoch 79 evaluating [time: 4.77s, valid_loss: 17.907535]
+11 Mar 14:16    INFO valid ppl: 59860935.190430425
+11 Mar 14:20    INFO epoch 80 training [time: 217.48s, train loss: 16.7414]
+11 Mar 14:24    INFO epoch 81 training [time: 216.78s, train loss: 16.7222]
+11 Mar 14:24    INFO epoch 81 evaluating [time: 4.60s, valid_loss: 17.900709]
+11 Mar 14:24    INFO valid ppl: 59453739.21503301
+11 Mar 14:24    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 14:27    INFO epoch 82 training [time: 218.26s, train loss: 16.7028]
+11 Mar 14:31    INFO epoch 83 training [time: 217.24s, train loss: 16.6849]
+11 Mar 14:31    INFO epoch 83 evaluating [time: 4.73s, valid_loss: 17.902833]
+11 Mar 14:31    INFO valid ppl: 59580158.19410544
+11 Mar 14:35    INFO epoch 84 training [time: 217.76s, train loss: 16.6638]
+11 Mar 14:38    INFO epoch 85 training [time: 218.09s, train loss: 16.6442]
+11 Mar 14:38    INFO epoch 85 evaluating [time: 4.87s, valid_loss: 17.900173]
+11 Mar 14:38    INFO valid ppl: 59421868.12420183
+11 Mar 14:39    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 14:42    INFO epoch 86 training [time: 219.61s, train loss: 16.6255]
+11 Mar 14:46    INFO epoch 87 training [time: 218.27s, train loss: 16.6070]
+11 Mar 14:46    INFO epoch 87 evaluating [time: 4.65s, valid_loss: 17.925081]
+11 Mar 14:46    INFO valid ppl: 60920555.67116494
+11 Mar 14:50    INFO epoch 88 training [time: 228.29s, train loss: 16.5889]
+11 Mar 14:54    INFO epoch 89 training [time: 236.50s, train loss: 16.5695]
+11 Mar 14:54    INFO epoch 89 evaluating [time: 4.69s, valid_loss: 17.909228]
+11 Mar 14:54    INFO valid ppl: 59962357.86079119
+11 Mar 14:57    INFO epoch 90 training [time: 218.20s, train loss: 16.5511]
+11 Mar 15:01    INFO epoch 91 training [time: 220.87s, train loss: 16.5313]
+11 Mar 15:01    INFO epoch 91 evaluating [time: 4.68s, valid_loss: 17.909020]
+11 Mar 15:01    INFO valid ppl: 59949898.41092921
+11 Mar 15:05    INFO epoch 92 training [time: 223.12s, train loss: 16.5171]
+11 Mar 15:09    INFO epoch 93 training [time: 221.19s, train loss: 16.4996]
+11 Mar 15:09    INFO epoch 93 evaluating [time: 4.57s, valid_loss: 17.924546]
+11 Mar 15:09    INFO valid ppl: 60887989.320301
+11 Mar 15:12    INFO epoch 94 training [time: 219.41s, train loss: 16.4803]
+11 Mar 15:14    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 15:14    INFO Loading data from restored
+11 Mar 15:14    INFO Restore finished!
+11 Mar 15:14    INFO Vocab size: 27127
+11 Mar 15:14    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 15:14    INFO Build [poem] DataLoader for [train]
+11 Mar 15:14    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 15:14    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 15:14    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 15:14    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 15:14    INFO Test only
+11 Mar 15:14    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+Traceback (most recent call last):
+  File "run_textbox.py", line 19, in <module>
+    run_textbox(
+  File "/home/textbox/dyf/TextBox/textbox/quick_start/quick_start.py", line 59, in run_textbox
+    test_result = trainer.evaluate(test_data, load_best_model=saved, model_file=config['load_experiment'])
+  File "/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 387, in evaluate
+    self._save_generated_text(generate_corpus)
+  File "/home/textbox/dyf/TextBox/textbox/trainer/trainer.py", line 223, in _save_generated_text
+    fin.write(' '.join(tokens) + '\n')
+TypeError: sequence item 0: expected str instance, list found
+11 Mar 15:26    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 15:26    INFO Loading data from restored
+11 Mar 15:26    INFO Restore finished!
+11 Mar 15:26    INFO Vocab size: 27127
+11 Mar 15:26    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 15:26    INFO Build [poem] DataLoader for [train]
+11 Mar 15:26    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 15:26    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 15:26    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 15:26    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 15:26    INFO Test only
+11 Mar 15:26    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 15:30    INFO test result: {'bleu-1': 0.045, 'bleu-2': 0.0034, 'bleu-3': 0.003, 'bleu-4': 0.0032, 'bleu-5': 0.0035, 'bleu-avg-bleu': 0.0059}
+11 Mar 15:36    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 15:36    INFO Loading data from restored
+11 Mar 15:36    INFO Restore finished!
+11 Mar 15:36    INFO Vocab size: 27127
+11 Mar 15:36    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 15:36    INFO Build [poem] DataLoader for [train]
+11 Mar 15:36    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 15:36    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 15:36    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 15:36    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 15:36    INFO Test only
+11 Mar 15:36    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-11-2021_12-24-56.pth
+11 Mar 15:42    INFO test result: {'bleu-1': 0.0607, 'bleu-2': 0.0041, 'bleu-3': 0.0035, 'bleu-4': 0.0037, 'bleu-5': 0.0039, 'bleu-avg-bleu': 0.0071}
+11 Mar 15:48    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=100
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 15:48    INFO Loading data from restored
+11 Mar 15:48    INFO Restore finished!
+11 Mar 15:48    INFO Vocab size: 27127
+11 Mar 15:48    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 15:48    INFO Build [poem] DataLoader for [train]
+11 Mar 15:48    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 15:49    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 15:49    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 15:49    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 15:52    INFO epoch 0 training [time: 217.60s, train loss: 24.6496]
+11 Mar 15:56    INFO epoch 1 training [time: 219.92s, train loss: 28.2852]
+11 Mar 15:56    INFO epoch 1 evaluating [time: 4.57s, valid_loss: 24.688107]
+11 Mar 15:56    INFO valid ppl: 52711910322.68875
+11 Mar 15:56    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:00    INFO epoch 2 training [time: 217.59s, train loss: 24.5269]
+11 Mar 16:03    INFO epoch 3 training [time: 217.17s, train loss: 23.9229]
+11 Mar 16:03    INFO epoch 3 evaluating [time: 4.54s, valid_loss: 23.371941]
+11 Mar 16:03    INFO valid ppl: 14135292932.052069
+11 Mar 16:03    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:07    INFO epoch 4 training [time: 220.82s, train loss: 23.4682]
+11 Mar 16:11    INFO epoch 5 training [time: 220.30s, train loss: 22.9117]
+11 Mar 16:11    INFO epoch 5 evaluating [time: 4.58s, valid_loss: 22.376561]
+11 Mar 16:11    INFO valid ppl: 5224164245.271332
+11 Mar 16:11    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:15    INFO epoch 6 training [time: 219.66s, train loss: 22.2128]
+11 Mar 16:18    INFO epoch 7 training [time: 222.58s, train loss: 21.6479]
+11 Mar 16:18    INFO epoch 7 evaluating [time: 4.78s, valid_loss: 21.401665]
+11 Mar 16:18    INFO valid ppl: 1970719608.6153774
+11 Mar 16:18    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:22    INFO epoch 8 training [time: 218.40s, train loss: 21.2804]
+11 Mar 16:26    INFO epoch 9 training [time: 222.93s, train loss: 20.9856]
+11 Mar 16:26    INFO epoch 9 evaluating [time: 4.55s, valid_loss: 20.835347]
+11 Mar 16:26    INFO valid ppl: 1118603100.1919584
+11 Mar 16:26    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:30    INFO epoch 10 training [time: 220.06s, train loss: 20.2370]
+11 Mar 16:33    INFO epoch 11 training [time: 220.34s, train loss: 21.5891]
+11 Mar 16:33    INFO epoch 11 evaluating [time: 4.56s, valid_loss: 20.472662]
+11 Mar 16:33    INFO valid ppl: 778330302.0427371
+11 Mar 16:33    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:37    INFO epoch 12 training [time: 220.50s, train loss: 20.4439]
+11 Mar 16:41    INFO epoch 13 training [time: 219.90s, train loss: 20.2372]
+11 Mar 16:41    INFO epoch 13 evaluating [time: 4.58s, valid_loss: 20.159659]
+11 Mar 16:41    INFO valid ppl: 569152541.0457956
+11 Mar 16:41    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:44    INFO epoch 14 training [time: 220.29s, train loss: 20.0611]
+11 Mar 16:48    INFO epoch 15 training [time: 217.94s, train loss: 19.8977]
+11 Mar 16:48    INFO epoch 15 evaluating [time: 4.51s, valid_loss: 19.875059]
+11 Mar 16:48    INFO valid ppl: 428182164.2466993
+11 Mar 16:48    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:52    INFO epoch 16 training [time: 219.74s, train loss: 19.7442]
+11 Mar 16:56    INFO epoch 17 training [time: 220.13s, train loss: 19.6106]
+11 Mar 16:56    INFO epoch 17 evaluating [time: 4.52s, valid_loss: 19.637185]
+11 Mar 16:56    INFO valid ppl: 337536848.04142296
+11 Mar 16:56    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 16:59    INFO epoch 18 training [time: 220.15s, train loss: 19.4897]
+11 Mar 17:03    INFO epoch 19 training [time: 220.53s, train loss: 19.3694]
+11 Mar 17:03    INFO epoch 19 evaluating [time: 4.55s, valid_loss: 19.436159]
+11 Mar 17:03    INFO valid ppl: 276068418.6165227
+11 Mar 17:03    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:07    INFO epoch 20 training [time: 218.53s, train loss: 18.3440]
+11 Mar 17:11    INFO epoch 21 training [time: 221.32s, train loss: 20.8538]
+11 Mar 17:11    INFO epoch 21 evaluating [time: 4.53s, valid_loss: 19.325451]
+11 Mar 17:11    INFO valid ppl: 247136499.18757698
+11 Mar 17:11    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:14    INFO epoch 22 training [time: 219.12s, train loss: 19.2182]
+11 Mar 17:18    INFO epoch 23 training [time: 219.46s, train loss: 19.0841]
+11 Mar 17:18    INFO epoch 23 evaluating [time: 4.58s, valid_loss: 19.184774]
+11 Mar 17:18    INFO valid ppl: 214704674.0148621
+11 Mar 17:18    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:22    INFO epoch 24 training [time: 221.76s, train loss: 18.9774]
+11 Mar 17:25    INFO epoch 25 training [time: 221.51s, train loss: 18.8878]
+11 Mar 17:26    INFO epoch 25 evaluating [time: 4.55s, valid_loss: 19.043850]
+11 Mar 17:26    INFO valid ppl: 186482896.00200337
+11 Mar 17:26    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:29    INFO epoch 26 training [time: 221.35s, train loss: 18.8048]
+11 Mar 17:33    INFO epoch 27 training [time: 217.70s, train loss: 18.7319]
+11 Mar 17:33    INFO epoch 27 evaluating [time: 4.78s, valid_loss: 18.920246]
+11 Mar 17:33    INFO valid ppl: 164800526.20205852
+11 Mar 17:33    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:37    INFO epoch 28 training [time: 217.85s, train loss: 18.6607]
+11 Mar 17:40    INFO epoch 29 training [time: 219.38s, train loss: 18.5940]
+11 Mar 17:40    INFO epoch 29 evaluating [time: 4.60s, valid_loss: 18.807952]
+11 Mar 17:40    INFO valid ppl: 147295609.15712965
+11 Mar 17:40    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:44    INFO epoch 30 training [time: 218.65s, train loss: 17.2672]
+11 Mar 17:48    INFO epoch 31 training [time: 220.85s, train loss: 20.2145]
+11 Mar 17:48    INFO epoch 31 evaluating [time: 4.54s, valid_loss: 18.776442]
+11 Mar 17:48    INFO valid ppl: 142726625.72922233
+11 Mar 17:48    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:52    INFO epoch 32 training [time: 219.85s, train loss: 18.5391]
+11 Mar 17:55    INFO epoch 33 training [time: 217.76s, train loss: 18.4477]
+11 Mar 17:55    INFO epoch 33 evaluating [time: 4.57s, valid_loss: 18.680275]
+11 Mar 17:55    INFO valid ppl: 129640378.5921032
+11 Mar 17:55    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 17:59    INFO epoch 34 training [time: 222.85s, train loss: 18.3752]
+11 Mar 18:03    INFO epoch 35 training [time: 218.72s, train loss: 18.3182]
+11 Mar 18:03    INFO epoch 35 evaluating [time: 4.54s, valid_loss: 18.591441]
+11 Mar 18:03    INFO valid ppl: 118620588.79281542
+11 Mar 18:03    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:06    INFO epoch 36 training [time: 220.71s, train loss: 18.2645]
+11 Mar 18:10    INFO epoch 37 training [time: 219.34s, train loss: 18.2148]
+11 Mar 18:10    INFO epoch 37 evaluating [time: 4.79s, valid_loss: 18.519273]
+11 Mar 18:10    INFO valid ppl: 110361625.99641688
+11 Mar 18:10    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:14    INFO epoch 38 training [time: 220.94s, train loss: 18.1676]
+11 Mar 18:18    INFO epoch 39 training [time: 220.53s, train loss: 18.1235]
+11 Mar 18:18    INFO epoch 39 evaluating [time: 4.50s, valid_loss: 18.449590]
+11 Mar 18:18    INFO valid ppl: 102933119.65938422
+11 Mar 18:18    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:21    INFO epoch 40 training [time: 219.52s, train loss: 16.4077]
+11 Mar 18:25    INFO epoch 41 training [time: 221.58s, train loss: 19.9687]
+11 Mar 18:25    INFO epoch 41 evaluating [time: 4.84s, valid_loss: 18.431845]
+11 Mar 18:25    INFO valid ppl: 101122634.72545046
+11 Mar 18:25    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:29    INFO epoch 42 training [time: 220.31s, train loss: 18.1169]
+11 Mar 18:33    INFO epoch 43 training [time: 217.79s, train loss: 18.0339]
+11 Mar 18:33    INFO epoch 43 evaluating [time: 4.69s, valid_loss: 18.368722]
+11 Mar 18:33    INFO valid ppl: 94936817.81857257
+11 Mar 18:33    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:36    INFO epoch 44 training [time: 218.78s, train loss: 17.9723]
+11 Mar 18:40    INFO epoch 45 training [time: 218.90s, train loss: 17.9250]
+11 Mar 18:40    INFO epoch 45 evaluating [time: 4.53s, valid_loss: 18.297913]
+11 Mar 18:40    INFO valid ppl: 88446934.0443868
+11 Mar 18:40    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:44    INFO epoch 46 training [time: 219.56s, train loss: 17.8801]
+11 Mar 18:47    INFO epoch 47 training [time: 218.66s, train loss: 17.8397]
+11 Mar 18:48    INFO epoch 47 evaluating [time: 4.60s, valid_loss: 18.248535]
+11 Mar 18:48    INFO valid ppl: 84185653.60494505
+11 Mar 18:48    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:51    INFO epoch 48 training [time: 217.83s, train loss: 17.8021]
+11 Mar 18:55    INFO epoch 49 training [time: 223.23s, train loss: 17.7628]
+11 Mar 18:55    INFO epoch 49 evaluating [time: 4.81s, valid_loss: 18.211460]
+11 Mar 18:55    INFO valid ppl: 81121613.78877228
+11 Mar 18:55    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 18:59    INFO epoch 50 training [time: 217.96s, train loss: 15.7798]
+11 Mar 19:02    INFO epoch 51 training [time: 219.74s, train loss: 20.0269]
+11 Mar 19:02    INFO epoch 51 evaluating [time: 4.63s, valid_loss: 18.209557]
+11 Mar 19:02    INFO valid ppl: 80967405.92918657
+11 Mar 19:02    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:06    INFO epoch 52 training [time: 218.86s, train loss: 17.8369]
+11 Mar 19:10    INFO epoch 53 training [time: 219.24s, train loss: 17.7377]
+11 Mar 19:10    INFO epoch 53 evaluating [time: 4.58s, valid_loss: 18.165372]
+11 Mar 19:10    INFO valid ppl: 77467731.49367844
+11 Mar 19:10    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:14    INFO epoch 54 training [time: 218.93s, train loss: 17.6752]
+11 Mar 19:17    INFO epoch 55 training [time: 220.94s, train loss: 17.6298]
+11 Mar 19:17    INFO epoch 55 evaluating [time: 4.53s, valid_loss: 18.110808]
+11 Mar 19:17    INFO valid ppl: 73354014.0038022
+11 Mar 19:17    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:21    INFO epoch 56 training [time: 221.47s, train loss: 17.5890]
+11 Mar 19:25    INFO epoch 57 training [time: 218.35s, train loss: 17.5575]
+11 Mar 19:25    INFO epoch 57 evaluating [time: 4.56s, valid_loss: 18.080085]
+11 Mar 19:25    INFO valid ppl: 71134618.21614353
+11 Mar 19:25    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:28    INFO epoch 58 training [time: 214.73s, train loss: 17.5262]
+11 Mar 19:32    INFO epoch 59 training [time: 220.99s, train loss: 17.4940]
+11 Mar 19:32    INFO epoch 59 evaluating [time: 4.80s, valid_loss: 18.046529]
+11 Mar 19:32    INFO valid ppl: 68787225.53012286
+11 Mar 19:32    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:36    INFO epoch 60 training [time: 217.12s, train loss: 15.2609]
+11 Mar 19:40    INFO epoch 61 training [time: 218.94s, train loss: 19.7894]
+11 Mar 19:40    INFO epoch 61 evaluating [time: 4.54s, valid_loss: 18.038287]
+11 Mar 19:40    INFO valid ppl: 68222629.62730886
+11 Mar 19:40    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:43    INFO epoch 62 training [time: 219.01s, train loss: 17.5556]
+11 Mar 19:47    INFO epoch 63 training [time: 217.64s, train loss: 17.4730]
+11 Mar 19:47    INFO epoch 63 evaluating [time: 4.60s, valid_loss: 18.017923]
+11 Mar 19:47    INFO valid ppl: 66847376.935573444
+11 Mar 19:47    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:51    INFO epoch 64 training [time: 221.85s, train loss: 17.4185]
+11 Mar 19:54    INFO epoch 65 training [time: 217.83s, train loss: 17.3868]
+11 Mar 19:54    INFO epoch 65 evaluating [time: 4.72s, valid_loss: 17.980243]
+11 Mar 19:54    INFO valid ppl: 64375487.162803456
+11 Mar 19:54    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 19:58    INFO epoch 66 training [time: 219.18s, train loss: 17.3537]
+11 Mar 20:02    INFO epoch 67 training [time: 219.70s, train loss: 17.3283]
+11 Mar 20:02    INFO epoch 67 evaluating [time: 4.61s, valid_loss: 17.962212]
+11 Mar 20:02    INFO valid ppl: 63225128.7619316
+11 Mar 20:02    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:06    INFO epoch 68 training [time: 217.89s, train loss: 17.3025]
+11 Mar 20:09    INFO epoch 69 training [time: 219.60s, train loss: 17.2806]
+11 Mar 20:09    INFO epoch 69 evaluating [time: 4.64s, valid_loss: 17.942351]
+11 Mar 20:09    INFO valid ppl: 61981766.73380833
+11 Mar 20:09    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:13    INFO epoch 70 training [time: 218.87s, train loss: 14.5408]
+11 Mar 20:17    INFO epoch 71 training [time: 221.74s, train loss: 19.2874]
+11 Mar 20:17    INFO epoch 71 evaluating [time: 4.53s, valid_loss: 17.933075]
+11 Mar 20:17    INFO valid ppl: 61409487.786848485
+11 Mar 20:17    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:20    INFO epoch 72 training [time: 217.59s, train loss: 17.3275]
+11 Mar 20:24    INFO epoch 73 training [time: 219.35s, train loss: 17.2613]
+11 Mar 20:24    INFO epoch 73 evaluating [time: 4.54s, valid_loss: 17.924187]
+11 Mar 20:24    INFO valid ppl: 60866102.343091056
+11 Mar 20:24    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:28    INFO epoch 74 training [time: 218.55s, train loss: 17.2205]
+11 Mar 20:32    INFO epoch 75 training [time: 220.20s, train loss: 17.1924]
+11 Mar 20:32    INFO epoch 75 evaluating [time: 4.58s, valid_loss: 17.897525]
+11 Mar 20:32    INFO valid ppl: 59264719.3217037
+11 Mar 20:32    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:35    INFO epoch 76 training [time: 221.84s, train loss: 17.1669]
+11 Mar 20:39    INFO epoch 77 training [time: 217.57s, train loss: 17.1434]
+11 Mar 20:39    INFO epoch 77 evaluating [time: 4.76s, valid_loss: 17.886419]
+11 Mar 20:39    INFO valid ppl: 58610180.057152145
+11 Mar 20:39    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:43    INFO epoch 78 training [time: 218.18s, train loss: 17.1231]
+11 Mar 20:46    INFO epoch 79 training [time: 220.61s, train loss: 17.1020]
+11 Mar 20:47    INFO epoch 79 evaluating [time: 4.73s, valid_loss: 17.875156]
+11 Mar 20:47    INFO valid ppl: 57953764.22992077
+11 Mar 20:47    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:50    INFO epoch 80 training [time: 219.19s, train loss: 13.9658]
+11 Mar 20:54    INFO epoch 81 training [time: 220.27s, train loss: 19.0430]
+11 Mar 20:54    INFO epoch 81 evaluating [time: 4.59s, valid_loss: 17.869974]
+11 Mar 20:54    INFO valid ppl: 57654247.08011575
+11 Mar 20:54    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 20:58    INFO epoch 82 training [time: 219.16s, train loss: 17.1454]
+11 Mar 21:01    INFO epoch 83 training [time: 222.37s, train loss: 17.0858]
+11 Mar 21:01    INFO epoch 83 evaluating [time: 4.74s, valid_loss: 17.853126]
+11 Mar 21:01    INFO valid ppl: 56691022.286772676
+11 Mar 21:01    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:05    INFO epoch 84 training [time: 219.83s, train loss: 17.0531]
+11 Mar 21:09    INFO epoch 85 training [time: 220.27s, train loss: 17.0320]
+11 Mar 21:09    INFO epoch 85 evaluating [time: 4.86s, valid_loss: 17.841492]
+11 Mar 21:09    INFO valid ppl: 56035273.15068775
+11 Mar 21:09    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:13    INFO epoch 86 training [time: 219.39s, train loss: 17.0091]
+11 Mar 21:16    INFO epoch 87 training [time: 218.10s, train loss: 16.9862]
+11 Mar 21:16    INFO epoch 87 evaluating [time: 4.52s, valid_loss: 17.832222]
+11 Mar 21:16    INFO valid ppl: 55518218.521487705
+11 Mar 21:16    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:20    INFO epoch 88 training [time: 217.68s, train loss: 16.9680]
+11 Mar 21:24    INFO epoch 89 training [time: 220.34s, train loss: 16.9493]
+11 Mar 21:24    INFO epoch 89 evaluating [time: 4.53s, valid_loss: 17.822692]
+11 Mar 21:24    INFO valid ppl: 54991641.40550785
+11 Mar 21:24    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:27    INFO epoch 90 training [time: 216.56s, train loss: 13.7320]
+11 Mar 21:31    INFO epoch 91 training [time: 220.52s, train loss: 19.1237]
+11 Mar 21:31    INFO epoch 91 evaluating [time: 4.88s, valid_loss: 17.818296]
+11 Mar 21:31    INFO valid ppl: 54750423.08970525
+11 Mar 21:31    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:35    INFO epoch 92 training [time: 219.93s, train loss: 17.0134]
+11 Mar 21:39    INFO epoch 93 training [time: 217.50s, train loss: 16.9482]
+11 Mar 21:39    INFO epoch 93 evaluating [time: 4.60s, valid_loss: 17.809290]
+11 Mar 21:39    INFO valid ppl: 54259566.2484202
+11 Mar 21:39    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:42    INFO epoch 94 training [time: 217.32s, train loss: 16.9150]
+11 Mar 21:46    INFO epoch 95 training [time: 217.62s, train loss: 16.8943]
+11 Mar 21:46    INFO epoch 95 evaluating [time: 4.57s, valid_loss: 17.796366]
+11 Mar 21:46    INFO valid ppl: 53562818.8625388
+11 Mar 21:46    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:49    INFO epoch 96 training [time: 209.83s, train loss: 16.8734]
+11 Mar 21:53    INFO epoch 97 training [time: 217.60s, train loss: 16.8517]
+11 Mar 21:53    INFO epoch 97 evaluating [time: 4.50s, valid_loss: 17.794519]
+11 Mar 21:53    INFO valid ppl: 53463969.84614572
+11 Mar 21:53    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 21:57    INFO epoch 98 training [time: 213.15s, train loss: 16.8369]
+11 Mar 22:00    INFO epoch 99 training [time: 215.55s, train loss: 16.8187]
+11 Mar 22:00    INFO epoch 99 evaluating [time: 4.51s, valid_loss: 17.785397]
+11 Mar 22:00    INFO valid ppl: 52978508.87526083
+11 Mar 22:01    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 22:01    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth
+11 Mar 22:07    INFO best valid loss: 17.785396896362304, best valid ppl: 52978508.87526083
+11 Mar 22:07    INFO test result: {'bleu-1': 0.0577, 'bleu-2': 0.0035, 'bleu-3': 0.0034, 'bleu-4': 0.0035, 'bleu-5': 0.0037, 'bleu-avg-bleu': 0.0067}
+command line args [load_experiment=saved/CVAE-CCPC-Mar-11-2021_15-48-56.pth] will not be used in TextBox
+11 Mar 22:13    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=0.0001
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 22:13    INFO Loading data from restored
+11 Mar 22:13    INFO Restore finished!
+11 Mar 22:13    INFO Vocab size: 27127
+11 Mar 22:13    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 22:13    INFO Build [poem] DataLoader for [train]
+11 Mar 22:13    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 22:13    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 22:13    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 22:13    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 22:16    INFO epoch 0 training [time: 211.20s, train loss: 23.3557]
+11 Mar 22:20    INFO epoch 1 training [time: 211.59s, train loss: 27.0297]
+11 Mar 22:20    INFO epoch 1 evaluating [time: 4.52s, valid_loss: 23.604907]
+11 Mar 22:20    INFO valid ppl: 17843530273.973705
+11 Mar 22:20    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-13-11.pth
+11 Mar 22:23    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=0.0001
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+11 Mar 22:23    INFO Loading data from restored
+11 Mar 22:23    INFO Restore finished!
+11 Mar 22:23    INFO Vocab size: 27127
+11 Mar 22:23    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+11 Mar 22:23    INFO Build [poem] DataLoader for [train]
+11 Mar 22:23    INFO batch_size = [[64]], shuffle = [True]
+
+11 Mar 22:23    INFO Build [poem] DataLoader for [evaluation]
+11 Mar 22:23    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+11 Mar 22:23    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+11 Mar 22:23    INFO Checkpoint loaded. Resume training from epoch 100
+11 Mar 22:27    INFO epoch 100 training [time: 219.68s, train loss: 13.3095]
+11 Mar 22:30    INFO epoch 101 training [time: 212.83s, train loss: 19.2290]
+11 Mar 22:31    INFO epoch 101 evaluating [time: 4.50s, valid_loss: 17.782484]
+11 Mar 22:31    INFO valid ppl: 52824400.885534465
+11 Mar 22:31    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+11 Mar 22:34    INFO epoch 102 training [time: 218.23s, train loss: 16.8932]
+11 Mar 22:38    INFO epoch 103 training [time: 214.81s, train loss: 16.8234]
+11 Mar 22:38    INFO epoch 103 evaluating [time: 4.57s, valid_loss: 17.780424]
+11 Mar 22:38    INFO valid ppl: 52715693.14554523
+11 Mar 22:38    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+11 Mar 22:41    INFO epoch 104 training [time: 213.89s, train loss: 16.7891]
+11 Mar 22:45    INFO epoch 105 training [time: 215.33s, train loss: 16.7676]
+11 Mar 22:45    INFO epoch 105 evaluating [time: 4.54s, valid_loss: 17.767240]
+11 Mar 22:45    INFO valid ppl: 52025264.83435173
+11 Mar 22:45    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+11 Mar 22:49    INFO epoch 106 training [time: 220.15s, train loss: 16.7480]
+11 Mar 22:53    INFO epoch 107 training [time: 223.07s, train loss: 16.7269]
+11 Mar 22:53    INFO epoch 107 evaluating [time: 4.60s, valid_loss: 17.775118]
+11 Mar 22:53    INFO valid ppl: 52436721.24851744
+11 Mar 22:56    INFO epoch 108 training [time: 216.15s, train loss: 16.7128]
+11 Mar 23:00    INFO epoch 109 training [time: 219.81s, train loss: 16.6974]
+11 Mar 23:00    INFO epoch 109 evaluating [time: 4.54s, valid_loss: 17.757715]
+11 Mar 23:00    INFO valid ppl: 51532084.901606575
+11 Mar 23:00    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+11 Mar 23:04    INFO epoch 110 training [time: 212.16s, train loss: 12.7421]
+11 Mar 23:07    INFO epoch 111 training [time: 217.37s, train loss: 19.1758]
+11 Mar 23:07    INFO epoch 111 evaluating [time: 4.53s, valid_loss: 17.758572]
+11 Mar 23:07    INFO valid ppl: 51576277.56847791
+11 Mar 23:11    INFO epoch 112 training [time: 221.63s, train loss: 16.7742]
+11 Mar 23:15    INFO epoch 113 training [time: 216.41s, train loss: 16.7065]
+11 Mar 23:15    INFO epoch 113 evaluating [time: 4.65s, valid_loss: 17.752533]
+11 Mar 23:15    INFO valid ppl: 51265707.0489822
+11 Mar 23:15    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+11 Mar 23:18    INFO epoch 114 training [time: 218.26s, train loss: 16.6782]
+11 Mar 23:22    INFO epoch 115 training [time: 220.17s, train loss: 16.6565]
+11 Mar 23:22    INFO epoch 115 evaluating [time: 4.58s, valid_loss: 17.747340]
+11 Mar 23:22    INFO valid ppl: 51000211.2089125
+11 Mar 23:22    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+11 Mar 23:26    INFO epoch 116 training [time: 219.60s, train loss: 16.6364]
+11 Mar 23:30    INFO epoch 117 training [time: 219.22s, train loss: 16.6198]
+11 Mar 23:30    INFO epoch 117 evaluating [time: 4.79s, valid_loss: 17.740923]
+11 Mar 23:30    INFO valid ppl: 50673966.30440188
+11 Mar 23:30    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+11 Mar 23:33    INFO epoch 118 training [time: 220.64s, train loss: 16.6047]
+11 Mar 23:37    INFO epoch 119 training [time: 223.01s, train loss: 16.5892]
+11 Mar 23:37    INFO epoch 119 evaluating [time: 4.56s, valid_loss: 17.745609]
+11 Mar 23:37    INFO valid ppl: 50911971.88218911
+11 Mar 23:41    INFO epoch 120 training [time: 215.98s, train loss: 11.8771]
+11 Mar 23:44    INFO epoch 121 training [time: 221.36s, train loss: 19.3993]
+11 Mar 23:45    INFO epoch 121 evaluating [time: 4.67s, valid_loss: 17.748694]
+11 Mar 23:45    INFO valid ppl: 51069275.06096951
+11 Mar 23:48    INFO epoch 122 training [time: 220.33s, train loss: 16.6670]
+11 Mar 23:52    INFO epoch 123 training [time: 219.51s, train loss: 16.6073]
+11 Mar 23:52    INFO epoch 123 evaluating [time: 4.61s, valid_loss: 17.744956]
+11 Mar 23:52    INFO valid ppl: 50878739.55210373
+11 Mar 23:56    INFO epoch 124 training [time: 221.97s, train loss: 16.5774]
+11 Mar 23:59    INFO epoch 125 training [time: 220.74s, train loss: 16.5588]
+11 Mar 23:59    INFO epoch 125 evaluating [time: 4.57s, valid_loss: 17.736776]
+11 Mar 23:59    INFO valid ppl: 50464241.70935104
+12 Mar 00:00    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+12 Mar 00:03    INFO epoch 126 training [time: 224.91s, train loss: 16.5379]
+12 Mar 00:07    INFO epoch 127 training [time: 221.09s, train loss: 16.5241]
+12 Mar 00:07    INFO epoch 127 evaluating [time: 4.63s, valid_loss: 17.739122]
+12 Mar 00:07    INFO valid ppl: 50582769.44753351
+12 Mar 00:11    INFO epoch 128 training [time: 218.35s, train loss: 16.5068]
+12 Mar 00:14    INFO epoch 129 training [time: 217.36s, train loss: 16.4925]
+12 Mar 00:14    INFO epoch 129 evaluating [time: 4.85s, valid_loss: 17.736066]
+12 Mar 00:14    INFO valid ppl: 50428429.09253028
+12 Mar 00:14    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+12 Mar 00:18    INFO epoch 130 training [time: 218.67s, train loss: 11.5151]
+12 Mar 00:22    INFO epoch 131 training [time: 221.50s, train loss: 19.7726]
+12 Mar 00:22    INFO epoch 131 evaluating [time: 4.54s, valid_loss: 17.753377]
+12 Mar 00:22    INFO valid ppl: 51309030.84927816
+12 Mar 00:26    INFO epoch 132 training [time: 221.28s, train loss: 16.6797]
+12 Mar 00:29    INFO epoch 133 training [time: 221.75s, train loss: 16.5849]
+12 Mar 00:29    INFO epoch 133 evaluating [time: 4.54s, valid_loss: 17.734038]
+12 Mar 00:29    INFO valid ppl: 50326285.37673032
+12 Mar 00:29    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+12 Mar 00:33    INFO epoch 134 training [time: 222.40s, train loss: 16.5459]
+12 Mar 00:37    INFO epoch 135 training [time: 220.92s, train loss: 16.5220]
+12 Mar 00:37    INFO epoch 135 evaluating [time: 4.53s, valid_loss: 17.735023]
+12 Mar 00:37    INFO valid ppl: 50375866.61567953
+12 Mar 00:41    INFO epoch 136 training [time: 220.02s, train loss: 16.4794]
+12 Mar 00:44    INFO epoch 137 training [time: 217.56s, train loss: 16.4605]
+12 Mar 00:44    INFO epoch 137 evaluating [time: 4.60s, valid_loss: 17.736318]
+12 Mar 00:44    INFO valid ppl: 50441168.6197493
+12 Mar 00:48    INFO epoch 138 training [time: 220.95s, train loss: 16.4431]
+12 Mar 00:52    INFO epoch 139 training [time: 218.93s, train loss: 16.4291]
+12 Mar 00:52    INFO epoch 139 evaluating [time: 4.56s, valid_loss: 17.733210]
+12 Mar 00:52    INFO valid ppl: 50284629.242677495
+12 Mar 00:52    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+12 Mar 00:55    INFO epoch 140 training [time: 219.24s, train loss: 12.6585]
+12 Mar 00:59    INFO epoch 141 training [time: 219.99s, train loss: 18.2198]
+12 Mar 00:59    INFO epoch 141 evaluating [time: 4.56s, valid_loss: 17.731261]
+12 Mar 00:59    INFO valid ppl: 50186695.181355104
+12 Mar 00:59    INFO Saving current best: saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+12 Mar 01:03    INFO epoch 142 training [time: 220.14s, train loss: 16.4663]
+12 Mar 01:07    INFO epoch 143 training [time: 217.74s, train loss: 16.4237]
+12 Mar 01:07    INFO epoch 143 evaluating [time: 4.54s, valid_loss: 17.731646]
+12 Mar 01:07    INFO valid ppl: 50206050.38039773
+12 Mar 01:10    INFO epoch 144 training [time: 219.67s, train loss: 16.4159]
+12 Mar 01:14    INFO epoch 145 training [time: 221.11s, train loss: 16.3919]
+12 Mar 01:14    INFO epoch 145 evaluating [time: 4.79s, valid_loss: 17.737075]
+12 Mar 01:14    INFO valid ppl: 50479368.772203796
+12 Mar 01:18    INFO epoch 146 training [time: 223.12s, train loss: 16.3733]
+12 Mar 01:21    INFO epoch 147 training [time: 218.89s, train loss: 16.3591]
+12 Mar 01:22    INFO epoch 147 evaluating [time: 4.55s, valid_loss: 17.743278]
+12 Mar 01:22    INFO valid ppl: 50793470.25953641
+12 Mar 01:25    INFO epoch 148 training [time: 219.06s, train loss: 16.3456]
+12 Mar 01:29    INFO epoch 149 training [time: 217.91s, train loss: 16.3333]
+12 Mar 01:29    INFO epoch 149 evaluating [time: 4.66s, valid_loss: 17.743954]
+12 Mar 01:29    INFO valid ppl: 50827811.78858679
+12 Mar 01:29    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-11-2021_22-23-31.pth
+12 Mar 01:35    INFO best valid loss: 17.731260513305664, best valid ppl: 50186695.181355104
+12 Mar 01:35    INFO test result: {'bleu-1': 0.0594, 'bleu-2': 0.0036, 'bleu-3': 0.0035, 'bleu-4': 0.0036, 'bleu-5': 0.0038, 'bleu-avg-bleu': 0.0069}
+12 Mar 07:26    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+12 Mar 07:26    INFO Loading data from restored
+12 Mar 07:26    INFO Restore finished!
+12 Mar 07:26    INFO Vocab size: 27127
+12 Mar 07:26    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+12 Mar 07:26    INFO Build [poem] DataLoader for [train]
+12 Mar 07:26    INFO batch_size = [[64]], shuffle = [True]
+
+12 Mar 07:26    INFO Build [poem] DataLoader for [evaluation]
+12 Mar 07:26    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+12 Mar 07:26    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+12 Mar 07:26    INFO Checkpoint loaded. Resume training from epoch 150
+12 Mar 07:30    INFO epoch 150 training [time: 214.38s, train loss: 12.9391]
+12 Mar 07:33    INFO epoch 151 training [time: 217.80s, train loss: 18.4183]
+12 Mar 07:33    INFO epoch 151 evaluating [time: 4.59s, valid_loss: 17.727595]
+12 Mar 07:33    INFO valid ppl: 50003067.40786343
+12 Mar 07:33    INFO Saving current best: saved/CVAE-CCPC-Mar-12-2021_07-26-28.pth
+12 Mar 07:37    INFO epoch 152 training [time: 215.19s, train loss: 16.3797]
+12 Mar 07:41    INFO epoch 153 training [time: 217.14s, train loss: 16.3321]
+12 Mar 07:41    INFO epoch 153 evaluating [time: 4.77s, valid_loss: 17.741639]
+12 Mar 07:41    INFO valid ppl: 50710279.82673747
+12 Mar 07:44    INFO epoch 154 training [time: 210.26s, train loss: 16.3171]
+12 Mar 07:48    INFO epoch 155 training [time: 217.52s, train loss: 16.2967]
+12 Mar 07:48    INFO epoch 155 evaluating [time: 4.79s, valid_loss: 17.742867]
+12 Mar 07:48    INFO valid ppl: 50772586.26638119
+12 Mar 07:52    INFO epoch 156 training [time: 217.26s, train loss: 16.2801]
+12 Mar 07:55    INFO epoch 157 training [time: 218.41s, train loss: 16.2630]
+12 Mar 07:55    INFO epoch 157 evaluating [time: 4.56s, valid_loss: 17.751986]
+12 Mar 07:55    INFO valid ppl: 51237678.78011821
+12 Mar 07:59    INFO epoch 158 training [time: 214.51s, train loss: 16.2528]
+12 Mar 08:03    INFO epoch 159 training [time: 215.86s, train loss: 16.2420]
+12 Mar 08:03    INFO epoch 159 evaluating [time: 4.58s, valid_loss: 17.752272]
+12 Mar 08:03    INFO valid ppl: 51252358.86399249
+12 Mar 08:06    INFO epoch 160 training [time: 218.11s, train loss: 12.4665]
+12 Mar 08:10    INFO epoch 161 training [time: 216.24s, train loss: 18.3993]
+12 Mar 08:10    INFO epoch 161 evaluating [time: 4.55s, valid_loss: 17.735973]
+12 Mar 08:10    INFO valid ppl: 50423779.35883242
+12 Mar 08:14    INFO epoch 162 training [time: 217.38s, train loss: 16.3080]
+12 Mar 08:17    INFO epoch 163 training [time: 217.55s, train loss: 16.2532]
+12 Mar 08:17    INFO epoch 163 evaluating [time: 4.51s, valid_loss: 17.744602]
+12 Mar 08:17    INFO valid ppl: 50860731.46721151
+12 Mar 08:21    INFO epoch 164 training [time: 217.79s, train loss: 16.2377]
+12 Mar 08:25    INFO epoch 165 training [time: 218.95s, train loss: 16.2213]
+12 Mar 08:25    INFO epoch 165 evaluating [time: 4.64s, valid_loss: 17.753850]
+12 Mar 08:25    INFO valid ppl: 51333305.34785994
+12 Mar 08:28    INFO epoch 166 training [time: 219.62s, train loss: 16.2018]
+12 Mar 08:32    INFO epoch 167 training [time: 217.98s, train loss: 16.1894]
+12 Mar 08:32    INFO epoch 167 evaluating [time: 4.56s, valid_loss: 17.750420]
+12 Mar 08:32    INFO valid ppl: 51157537.228264496
+12 Mar 08:36    INFO epoch 168 training [time: 217.94s, train loss: 16.1758]
+12 Mar 08:40    INFO epoch 169 training [time: 219.44s, train loss: 16.1639]
+12 Mar 08:40    INFO epoch 169 evaluating [time: 4.60s, valid_loss: 17.763295]
+12 Mar 08:40    INFO valid ppl: 51820421.971998565
+12 Mar 08:43    INFO epoch 170 training [time: 221.92s, train loss: 12.0527]
+12 Mar 08:47    INFO epoch 171 training [time: 219.69s, train loss: 18.3144]
+12 Mar 08:47    INFO epoch 171 evaluating [time: 4.65s, valid_loss: 17.756207]
+12 Mar 08:47    INFO valid ppl: 51454449.01052997
+12 Mar 08:51    INFO epoch 172 training [time: 220.67s, train loss: 16.2324]
+12 Mar 08:54    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+12 Mar 08:54    INFO Loading data from restored
+12 Mar 08:54    INFO Restore finished!
+12 Mar 08:54    INFO Vocab size: 27127
+12 Mar 08:54    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+12 Mar 08:54    INFO Build [poem] DataLoader for [train]
+12 Mar 08:54    INFO batch_size = [[64]], shuffle = [True]
+
+12 Mar 08:54    INFO Build [poem] DataLoader for [evaluation]
+12 Mar 08:54    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+12 Mar 08:54    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+12 Mar 08:54    INFO Test only
+12 Mar 08:54    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-12-2021_07-26-28.pth
+12 Mar 09:00    INFO test result: {'bleu-1': 0.0589, 'bleu-2': 0.0036, 'bleu-3': 0.0034, 'bleu-4': 0.0036, 'bleu-5': 0.0038, 'bleu-avg-bleu': 0.0069}
+12 Mar 09:53    INFO 
+General Hyper Parameters: 
+gpu_id=2
+use_gpu=True
+seed=2020
+state=INFO
+reproducibility=True
+data_path=dataset/CCPC
+checkpoint_dir=saved/
+generated_text_dir=generated/
+
+Training Hyper Parameters: 
+epochs=50
+train_batch_size=64
+learner=adam
+learning_rate=5e-05
+eval_step=2
+stopping_step=5
+grad_clip=5.0
+
+Evaluation Hyper Parameters: 
+metrics=['bleu', 'self_bleu']
+n_grams=[1, 2, 3, 4, 5]
+eval_batch_size=64
+eval_generate_num=10000
+
+Model Hyper Parameters: 
+embedding_size=300
+hidden_size=500
+latent_size=300
+MLP_neuron_size=400
+rnn_type=gru
+num_highway_layers=2
+num_enc_layers=2
+num_dec_layers=1
+bidirectional=True
+dropout_ratio=0.5
+
+Dataset Hyper Parameters: 
+max_vocab_size=30000
+knowledge_format=single
+source_format=single
+target_format=multiple
+max_source_length=20
+max_knowledge_length=4
+max_target_length=7
+max_target_num=4
+group_split_token=	
+sentence_split_token= __eol__ 
+split_strategy=load_split
+overlength_strategy=truncate
+tokenize_strategy=by_space
+language=Chinese
+
+
+12 Mar 09:53    INFO Loading data from restored
+12 Mar 09:53    INFO Restore finished!
+12 Mar 09:53    INFO Vocab size: 27127
+12 Mar 09:53    INFO train: 109728 cases, dev: 7979 cases, test: 9976 cases
+
+12 Mar 09:53    INFO Build [poem] DataLoader for [train]
+12 Mar 09:53    INFO batch_size = [[64]], shuffle = [True]
+
+12 Mar 09:53    INFO Build [poem] DataLoader for [evaluation]
+12 Mar 09:53    INFO batch_size = [[64, 64]], shuffle = [False]
+
+/home/textbox/anaconda3/envs/dyf/lib/python3.8/site-packages/torch/nn/modules/rnn.py:60: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.5 and num_layers=1
+  warnings.warn("dropout option adds dropout after all but last "
+12 Mar 09:53    INFO CVAE(
+  (token_embedder): Embedding(27127, 300, padding_idx=0)
+  (encoder): BasicRNNEncoder(
+    (encoder): GRU(300, 500, num_layers=2, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (decoder): BasicRNNDecoder(
+    (decoder): GRU(300, 500, batch_first=True, dropout=0.5)
+  )
+  (dropout): Dropout(p=0.5, inplace=False)
+  (vocab_linear): Linear(in_features=500, out_features=27127, bias=True)
+  (loss): CrossEntropyLoss()
+  (MLP_mean_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_mean_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (MLP_logvar_linear1): Linear(in_features=2000, out_features=400, bias=True)
+  (MLP_logvar_linear2): Linear(in_features=400, out_features=300, bias=True)
+  (hidden_to_mean): Linear(in_features=3000, out_features=300, bias=True)
+  (hidden_to_logvar): Linear(in_features=3000, out_features=300, bias=True)
+  (latent_to_hidden): Linear(in_features=2300, out_features=500, bias=True)
+)
+Trainable parameters: 34636227
+12 Mar 09:53    INFO Test only
+12 Mar 09:53    INFO Loading model structure and parameters from saved/CVAE-CCPC-Mar-12-2021_09-23-29.pth
+12 Mar 10:00    INFO test result: {'bleu-1': 0.0507, 'bleu-2': 0.0032, 'bleu-3': 0.0032, 'bleu-4': 0.0034, 'bleu-5': 0.0036, 'bleu-avg-bleu': 0.0063}

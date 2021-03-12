@@ -32,7 +32,7 @@ class TranslationEvaluator(AbstractEvaluator):
         # config['n_grams']
         self._check_args()
 
-    def evaluate(self, generate_corpus, reference_corpus):
+    def evaluate(self, generate_corpus, reference_corpus, task_type=None):
         r"""get metrics result
 
         Args:
@@ -42,6 +42,15 @@ class TranslationEvaluator(AbstractEvaluator):
         Returns:
             dict: such as ``{'bleu-1': xxx}``
         """
+        # format the reference corpus if task_type is poem
+        if task_type == "poem":
+            new_reference_corpus = []
+            for i in range(len(reference_corpus)):
+                reference_poem = []
+                for j in range(len(reference_corpus[0])):
+                    reference_poem.extend(reference_corpus[i][j])
+                new_reference_corpus.append(reference_poem)
+            reference_corpus = new_reference_corpus
         # get metrics
         metric_dict = {}
         bleu_dict = self._calc_metrics_info(

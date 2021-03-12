@@ -275,7 +275,7 @@ class Trainer(AbstractTrainer):
         Returns:
              (float, dict): best valid score and best valid result. If valid_data is None, it returns (-1, None)
         """
-        for epoch_idx in range(self.start_epoch, self.epochs):
+        for epoch_idx in range(self.start_epoch, self.start_epoch + self.epochs):
             # train
             training_start_time = time()
             train_loss = self._train_epoch(train_data, epoch_idx)
@@ -318,6 +318,9 @@ class Trainer(AbstractTrainer):
                         if verbose:
                             self.logger.info(update_output)
                     self.best_valid_result = valid_result
+
+            if epoch_idx == self.epochs - 1:
+                self._save_checkpoint(epoch_idx)
 
                 if stop_flag:
                     stop_output = 'Finished training, best eval result in epoch %d' % \
@@ -370,10 +373,12 @@ class Trainer(AbstractTrainer):
         self.model.eval()
         with torch.no_grad():
             generate_corpus = self.model.generate(eval_data)
-        self._save_generated_text(generate_corpus, task_type=self.task_type)
+        self._save_generated_text(generate_corpus)
         reference_corpus = eval_data.get_reference()
-        result = self.evaluator.evaluate(generate_corpus, reference_corpus)
-        #result['nll_test'] = self._evaluate_nll_test(eval_data)
+        result = self.evaluator.evaluate(generate_corpus, reference_corpus, task_type=self.task_type)
+        self._save_generated_text(generate_corpus)
+        if self.task_type != "poem":
+            result['nll_test'] = self._evaluate_nll_test(eval_data)
 
         return result
 

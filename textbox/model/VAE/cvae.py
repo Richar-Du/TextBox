@@ -101,7 +101,6 @@ class CVAE(UnconditionalGenerator):
             # xavier_uniform_(module.weight.data)
         elif isinstance(module, nn.Linear):
             torch.nn.init.uniform_(module.weight.data, a=-0.08, b=0.08)
-            # xavier_uniform_(module.weight.data,gain=nn.init.calculate_gain('relu'))
             if module.bias is not None:
                 constant_(module.bias.data, 0)
 
@@ -149,9 +148,9 @@ class CVAE(UnconditionalGenerator):
                         condition = torch.cat((single_title_h, pre_h), 1)
                         # mean and logvar of prior：
                         prior_mean = self.MLP_mean_linear1(condition)
-                        prior_mean = self.MLP_mean_linear2(F.tanh(prior_mean))
+                        prior_mean = self.MLP_mean_linear2(torch.tanh(prior_mean))
                         prior_logvar = self.MLP_logvar_linear1(condition)
-                        prior_logvar = self.MLP_logvar_linear2(F.tanh(prior_logvar))
+                        prior_logvar = self.MLP_logvar_linear2(torch.tanh(prior_logvar))
                         # sample from prior
                         prior_z = torch.randn([1, self.latent_size]).to(self.device)
                         prior_z = prior_mean + prior_z * torch.exp(0.5 * prior_logvar)
@@ -172,21 +171,21 @@ class CVAE(UnconditionalGenerator):
                                 input_embeddings=decoder_input, hidden_states=decoder_hidden
                             )
                             token_logits = self.vocab_linear(outputs)
-                            token_idx = topk_sampling(token_logits)
-                            # index = 0
-                            # while token_idx[0][index].item() in [
-                            #     self.sos_token_idx, self.eos_token_idx
-                            # ]:  # if generate 'eos' before reach the proper number of words, resample
-                            #     index += 1
-                            # token_idx = token_idx[0][index].item()
-                            token_idx = token_idx.item()
-                            if token_idx == self.eos_token_idx:
-                                break
-                            else:
-                                generate_sentence.append(idx2token[token_idx])
-                                generate_sentence_idx.append(token_idx)
-                                input_seq = torch.LongTensor([[token_idx]]).to(self.device)
-                        poem.append(generate_sentence)
+                            token_idx = topk_sampling(token_logits,token_num=3)
+                            index = 0
+                            while token_idx[0][index].item() in [
+                                self.sos_token_idx, self.eos_token_idx
+                            ]:  # if generate 'eos' before reach the proper number of words, resample
+                                index += 1
+                            token_idx = token_idx[0][index].item()
+                            # token_idx = token_idx.item()
+                            # if token_idx == self.eos_token_idx:
+                            #     break
+                            # else:
+                            generate_sentence.append(idx2token[token_idx])
+                            generate_sentence_idx.append(token_idx)
+                            input_seq = torch.LongTensor([[token_idx]]).to(self.device)
+                        poem.extend(generate_sentence)
                         generate_sentence_idx = torch.tensor(generate_sentence_idx).to(self.device).to(torch.int64)
                         generate_sentence_length = torch.tensor(len(generate_sentence)).to(self.device).expand(1, 1)
                         pre_emb = self.token_embedder(generate_sentence_idx)
@@ -212,7 +211,6 @@ class CVAE(UnconditionalGenerator):
         title_length = corpus['source_idx_length_data']
         # sentence_text (Torch.tensor): shape: [batch_size,max_target_num,max_target_length+2]
         sentence_text = corpus['target_text_idx_data']
-        intput_text = sentence_text[:, :, :-1]
         target_text = sentence_text[:, :, 1:]
         # sentence_length (Torch.tensor): shape: [batch_size,max_target_num]
         sentence_length = corpus['target_idx_length_data']
@@ -236,7 +234,7 @@ class CVAE(UnconditionalGenerator):
         pad_emb = self.token_embedder(pad_text)
 
         total_loss = torch.zeros(1).to(self.device)
-        for i in range(0, self.max_target_num):
+        for i in range(self.max_target_num):
             if i == 0:              # there is no previous line for the first line
                 # pre_o (Torch.tensor): shape:[batch_size,max_target_length+2,hidden_size*2]
                 # pre_hidden (Torch.tensor): shape:[num_enc_layers*num_directions,batch_size,hidden_size]
@@ -262,7 +260,7 @@ class CVAE(UnconditionalGenerator):
                 title_h = title_h.view(self.num_enc_layers, 2, batch_size, self.hidden_size)
                 # fetch the last layer,title_h (Torch.tensor): shape:[num_directions,batch_size,hidden_size]
                 title_h = title_h[-1]
-                # after cat, title_h (Torch.tensor): shape:[batch_size,num_directions*hidden_size]
+                # concatenate the bidirection, title_h (Torch.tensor): shape:[batch_size,num_directions*hidden_size]
                 title_h = torch.cat([title_h[0], title_h[1]], dim=1)
                 pre_h = pre_h.view(self.num_enc_layers, 2, batch_size, self.hidden_size)
                 pre_h = pre_h[-1]
@@ -287,11 +285,11 @@ class CVAE(UnconditionalGenerator):
             # prior_mean (Torch.tensor): shape:[batch_size,MLP_neuron_size]
             prior_mean = self.MLP_mean_linear1(condition)
             # prior_mean (Torch.tensor): shape:[batch_size,latent_size]
-            prior_mean = self.MLP_mean_linear2(F.tanh(prior_mean))
+            prior_mean = self.MLP_mean_linear2(torch.tanh(prior_mean))
             # prior_logvar (Torch.tensor): shape:[batch_size,MLP_neuron_size]
             prior_logvar = self.MLP_logvar_linear1(condition)
             # prior_logvar (Torch.tensor): shape:[batch_size,latent_size]
-            prior_logvar = self.MLP_logvar_linear2(F.tanh(prior_logvar))
+            prior_logvar = self.MLP_logvar_linear2(torch.tanh(prior_logvar))
 
             # posterior network
             # posterior_mean (Torch.tensor): shape:[batch_size,latent_size]
@@ -339,10 +337,10 @@ class CVAE(UnconditionalGenerator):
                 (prior_mean - posterior_mean).pow(2) / torch.exp(prior_logvar), 1
             )
             # cycling weight
-            # if epoch_idx%10<5:
-            #     kld_coef=0.2*(epoch_idx%10)
-            # else:
-            #     kld_coef=1
+            if epoch_idx%10<5:
+                kld_coef=0.2*(epoch_idx%10)
+            else:
+                kld_coef=1
             # kld_coef=float(epoch_idx%10+1)/self.max_epoch
             # if epoch_idx>=40:
             #     kld_coef=1
@@ -350,7 +348,7 @@ class CVAE(UnconditionalGenerator):
             # if epoch_idx > self.max_epoch - 8:
             #     kld_coef = float(epoch_idx / self.max_epoch)
 
-            kld_coef=float(epoch_idx / self.max_epoch) + 1e-3
+            # kld_coef=float(epoch_idx / self.max_epoch) + 1e-3
             loss = loss.mean() + kld_coef * kld.mean()
             total_loss += loss
 
